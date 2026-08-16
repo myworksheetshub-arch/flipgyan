@@ -1,0 +1,177 @@
+export const ch12SymmetryClass7Data = {
+  classNumber: 7,
+  className: 'Class 7',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH7',
+  chapterNumber: 12,
+  chapterTitle: 'Symmetry',
+  summary: 'Lines of Symmetry for regular polygons, Rotational Symmetry, Center of Rotation, Angle of Rotation, Order of Rotational Symmetry.',
+  contentMarkdown: `# Chapter 12: Symmetry (Class 7 Mathematics NEP 2025)
+
+## 1. Line Symmetry
+- A shape has line symmetry if a folding line divides it into two **identical matching halves**.
+- A **Regular Polygon** of $n$ sides has **$n$ lines of symmetry**.
+
+## 2. Rotational Symmetry
+- **Angle of Rotation**: Minimum angle through which a figure is rotated so that it looks exactly the same.
+- **Order of Rotational Symmetry**: Number of positions in a $360^\\circ$ rotation where the shape matches its original view.
+  $$\\text{Order of Symmetry} = \\frac{360^\\circ}{\\text{Angle of Rotation}}$$
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Symmetry Concepts',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'symm-types',
+          label: 'Line & Rotational Symmetry',
+          type: 'category',
+          children: [
+            { id: 'reg-poly-symm', label: 'Regular Polygon (n sides) => n Lines of Symmetry', type: 'concept' },
+            { id: 'rot-order', label: 'Order = 360° / Angle of Rotation', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C7-MATH-CH12-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'How many lines of symmetry does a REGULAR HEXAGON have?',
+      explanation: 'A regular polygon of n sides has n lines of symmetry. A regular hexagon has 6 lines of symmetry.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '6', isCorrect: true },
+        { optionLabel: 'B', optionText: '4', isCorrect: false },
+        { optionLabel: 'C', optionText: '3', isCorrect: false },
+        { optionLabel: 'D', optionText: '12', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH12-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'What is the Order of Rotational Symmetry of a SQUARE?',
+      explanation: 'A square matches its original shape at 90°, 180°, 270°, and 360°. Order = 4.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '4', isCorrect: true },
+        { optionLabel: 'B', optionText: '2', isCorrect: false },
+        { optionLabel: 'C', optionText: '1', isCorrect: false },
+        { optionLabel: 'D', optionText: '8', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH12-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'If a shape has an Angle of Rotation equal to 60°, what is its Order of Rotational Symmetry?',
+      explanation: 'Order = 360° / 60° = 6.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '6', isCorrect: true },
+        { optionLabel: 'B', optionText: '4', isCorrect: false },
+        { optionLabel: 'C', optionText: '3', isCorrect: false },
+        { optionLabel: 'D', optionText: '5', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH12-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'UNDERSTAND',
+      competency: 'CONCEPTUAL',
+      questionText: 'Which of the following English capital letters has BOTH Line Symmetry and Rotational Symmetry?',
+      explanation: 'Letter H has vertical and horizontal line symmetry as well as rotational symmetry of order 2.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'H', isCorrect: true },
+        { optionLabel: 'B', optionText: 'A', isCorrect: false },
+        { optionLabel: 'C', optionText: 'C', isCorrect: false },
+        { optionLabel: 'D', optionText: 'L', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH12-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Olympiad] A figure has a rotational symmetry of order 1 if its angle of rotation is:',
+      explanation: 'Order 1 means it only looks the same after a full 360° rotation (no rotational symmetry).',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '360°', isCorrect: true },
+        { optionLabel: 'B', optionText: '180°', isCorrect: false },
+        { optionLabel: 'C', optionText: '90°', isCorrect: false },
+        { optionLabel: 'D', optionText: '0°', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH12-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] Which geometric figure has UNLIMITED (Infinitely Many) lines of symmetry and rotational symmetry of infinite order?',
+      explanation: 'A Circle can be folded across any diameter (infinitely many lines) and rotated through any angle.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'Circle', isCorrect: true },
+        { optionLabel: 'B', optionText: 'Square', isCorrect: false },
+        { optionLabel: 'C', optionText: 'Equilateral Triangle', isCorrect: false },
+        { optionLabel: 'D', optionText: 'Regular Octagon', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH12-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'How many lines of symmetry does an ISOSCELES TRIANGLE have?',
+      explanation: 'An isosceles triangle has only 1 line of symmetry (passing through the vertex between equal sides).',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '1', isCorrect: true },
+        { optionLabel: 'B', optionText: '3', isCorrect: false },
+        { optionLabel: 'C', optionText: '2', isCorrect: false },
+        { optionLabel: 'D', optionText: '0', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH12-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'What is the order of rotational symmetry of a RHOMBUS about its intersection of diagonals?',
+      explanation: 'A rhombus has rotational symmetry of order 2 (matches at 180° and 360°).',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '2', isCorrect: true },
+        { optionLabel: 'B', optionText: '4', isCorrect: false },
+        { optionLabel: 'C', optionText: '1', isCorrect: false },
+        { optionLabel: 'D', optionText: '3', isCorrect: false },
+      ],
+    },
+  ],
+};

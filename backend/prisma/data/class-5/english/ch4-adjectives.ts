@@ -1,0 +1,52 @@
+export const ch4AdjectivesData = {
+  chapterNumber: 4,
+  title: 'Adjectives',
+  description: 'Describing words, Degrees of Comparison (Positive, Comparative, Superlative), and Kinds of Adjectives.',
+  topics: [
+    { title: 'Degrees of Comparison', summary: 'Forming comparative (-er / more) and superlative (-est / most) forms.' },
+    { title: 'Kinds of Adjectives', summary: 'Adjectives of Quality, Quantity, Number, and Demonstrative adjectives.' },
+  ],
+  questions: [
+    {
+      questionCode: 'C5-ENG-ADJ-001',
+      questionText: 'What is the superlative degree of the adjective "good"?',
+      questionType: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      marks: 1,
+      explanation: 'Degrees of "good": Positive = good, Comparative = better, Superlative = best.',
+      options: [
+        { text: 'best', isCorrect: true },
+        { text: 'better', isCorrect: false },
+        { text: 'goodest', isCorrect: false },
+        { text: 'more good', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C5-ENG-ADJ-002',
+      questionText: 'Complete the sentence: "Mount Everest is the ________ peak in the world."',
+      questionType: 'FILL_BLANK',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      marks: 1,
+      answerText: 'highest',
+      explanation: 'Use the superlative degree "highest" when comparing to all peaks.',
+    },
+    {
+      questionCode: 'C5-ENG-ADJ-003',
+      questionText: 'In "She bought five juicy mangoes", "five" is an Adjective of Number and "juicy" is an Adjective of Quality.',
+      questionType: 'TRUE_FALSE',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'UNDERSTAND',
+      competency: 'CONCEPTUAL',
+      marks: 1,
+      explanation: '"five" tells how many (number) and "juicy" tells what kind (quality).',
+      options: [
+        { text: 'True', isCorrect: true },
+        { text: 'False', isCorrect: false },
+      ],
+    },
+  ],
+};

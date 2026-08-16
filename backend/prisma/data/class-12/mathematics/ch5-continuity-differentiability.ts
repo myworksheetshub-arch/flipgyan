@@ -1,0 +1,178 @@
+export const ch5ContinuityDifferentiabilityClass12Data = {
+  classNumber: 12,
+  className: 'Class 12',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH12',
+  chapterNumber: 5,
+  chapterTitle: 'Continuity and Differentiability',
+  summary: 'Continuity of functions, Differentiability, Chain Rule, Implicit Functions, Logarithmic Differentiation, Parametric Functions, Second Order Derivative d²y/dx².',
+  contentMarkdown: `# Chapter 5: Continuity and Differentiability (Class 12 Mathematics NEP 2025)
+
+## 1. Continuity Condition
+Function $f(x)$ is continuous at $x = c$ if:
+$$\\lim_{x \\to c^-} f(x) = \\lim_{x \\to c^+} f(x) = f(c)$$
+
+## 2. Key Derivative Rules
+- **Chain Rule**: $\\frac{d}{dx} f(g(x)) = f'(g(x)) \\cdot g'(x)$
+- **Logarithmic Differentiation**: For $y = [u(x)]^{v(x)}$, take $\\ln y = v(x) \\ln u(x)$.
+- **Parametric Derivative**: For $x = f(t), y = g(t) \\implies \\frac{dy}{dx} = \\frac{dy/dt}{dx/dt}$.
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Continuity & Calculus',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'diff-methods',
+          label: 'Differentiation Techniques',
+          type: 'category',
+          children: [
+            { id: 'chain-rule', label: 'Chain Rule f\'(g(x)) g\'(x)', type: 'concept' },
+            { id: 'log-diff', label: 'Logarithmic Diff y = u(x)^v(x)', type: 'concept' },
+            { id: 'parametric', label: 'Parametric dy/dx = (dy/dt) / (dx/dt)', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C12-MATH-CH5-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the derivative of y = sin(x² + 5) with respect to x.',
+      explanation: 'By Chain Rule: dy/dx = cos(x² + 5) × d/dx(x² + 5) = 2x cos(x² + 5).',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '2x cos(x² + 5)', isCorrect: true },
+        { optionLabel: 'B', optionText: 'cos(x² + 5)', isCorrect: false },
+        { optionLabel: 'C', optionText: '-2x cos(x² + 5)', isCorrect: false },
+        { optionLabel: 'D', optionText: '2x sin(x² + 5)', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH5-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find dy/dx if 2x + 3y = sin x.',
+      explanation: 'Implicit differentiation: 2 + 3(dy/dx) = cos x => 3(dy/dx) = cos x - 2 => dy/dx = (cos x - 2) / 3.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '(cos x - 2) / 3', isCorrect: true },
+        { optionLabel: 'B', optionText: '(cos x + 2) / 3', isCorrect: false },
+        { optionLabel: 'C', optionText: '(2 - cos x) / 3', isCorrect: false },
+        { optionLabel: 'D', optionText: '3(cos x - 2)', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH5-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'If x = a t² and y = 2 a t, find dy/dx.',
+      explanation: 'dx/dt = 2at, dy/dt = 2a. dy/dx = (dy/dt) / (dx/dt) = 2a / (2at) = 1/t.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '1/t', isCorrect: true },
+        { optionLabel: 'B', optionText: 't', isCorrect: false },
+        { optionLabel: 'C', optionText: '2a / t', isCorrect: false },
+        { optionLabel: 'D', optionText: '-1/t²', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH5-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'Find the derivative of y = x^x with respect to x.',
+      explanation: 'Take ln: ln y = x ln x => (1/y)(dy/dx) = x(1/x) + ln x = 1 + ln x => dy/dx = x^x (1 + ln x).',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'x^x (1 + ln x)', isCorrect: true },
+        { optionLabel: 'B', optionText: 'x^x ln x', isCorrect: false },
+        { optionLabel: 'C', optionText: 'x · x^(x-1)', isCorrect: false },
+        { optionLabel: 'D', optionText: '1 + ln x', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH5-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Board/JEE Main] Find the value of k for which f(x) = (k cos x) / (π - 2x) for x ≠ π/2 and f(π/2) = 3 is CONTINUOUS at x = π/2.',
+      explanation: 'lim (x → π/2) (k cos x)/(π - 2x). Put x = π/2 + h => lim (h → 0) (k cos(π/2+h))/(-2h) = lim (h → 0) (-k sin h)/(-2h) = k/2. For continuity k/2 = 3 => k = 6.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'k = 6', isCorrect: true },
+        { optionLabel: 'B', optionText: 'k = 3', isCorrect: false },
+        { optionLabel: 'C', optionText: 'k = 12', isCorrect: false },
+        { optionLabel: 'D', optionText: 'k = 2', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH5-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] If y = A cos nx + B sin nx, then d²y/dx² + n² y is equal to:',
+      explanation: 'dy/dx = -A n sin nx + B n cos nx. d²y/dx² = -A n² cos nx - B n² sin nx = -n² (A cos nx + B sin nx) = -n² y. So d²y/dx² + n² y = 0.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '0', isCorrect: true },
+        { optionLabel: 'B', optionText: 'n² y', isCorrect: false },
+        { optionLabel: 'C', optionText: '-n² y', isCorrect: false },
+        { optionLabel: 'D', optionText: '1', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH5-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'What is the derivative of e^(cos x) with respect to x?',
+      explanation: 'd/dx (e^(cos x)) = e^(cos x) × d/dx(cos x) = -sin x e^(cos x).',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '-sin x e^(cos x)', isCorrect: true },
+        { optionLabel: 'B', optionText: 'cos x e^(cos x)', isCorrect: false },
+        { optionLabel: 'C', optionText: 'sin x e^(cos x)', isCorrect: false },
+        { optionLabel: 'D', optionText: '-e^(cos x)', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH5-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find d²y/dx² if y = x³ + tan x.',
+      explanation: 'dy/dx = 3x² + sec²x. d²y/dx² = 6x + 2 sec x (sec x tan x) = 6x + 2 sec²x tan x.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '6x + 2 sec²x tan x', isCorrect: true },
+        { optionLabel: 'B', optionText: '6x + sec²x', isCorrect: false },
+        { optionLabel: 'C', optionText: '3x² + sec²x tan x', isCorrect: false },
+        { optionLabel: 'D', optionText: '6x + 2 tan x', isCorrect: false },
+      ],
+    },
+  ],
+};

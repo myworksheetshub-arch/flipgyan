@@ -1,0 +1,57 @@
+export const ch5FarAndNearData = {
+  chapterNumber: 5,
+  title: 'Far and Near',
+  description: 'Understanding scale drawings, distance comparison, map scale ratios, and spatial relationships.',
+  topics: [
+    { title: 'Scale Drawings & Distance Key', summary: 'Using 1 cm = 10 km scale keys to calculate actual map distances.' },
+    { title: 'Relative Positions & Perspective View', summary: 'Comparing distances from different landmarks and aerial perspectives.' },
+  ],
+  questions: [
+    {
+      questionCode: 'C5-MATH-FAR-001',
+      questionText: 'On a map, 1 cm represents 25 km. If two towns are 4 cm apart on the map, what is the actual distance?',
+      questionType: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      marks: 1,
+      explanation: 'Actual distance = 4 cm × 25 km/cm = 100 km.',
+      options: [
+        { text: '100 km', isCorrect: true },
+        { text: '75 km', isCorrect: false },
+        { text: '125 km', isCorrect: false },
+        { text: '50 km', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C5-MATH-FAR-002',
+      questionText: 'On a map, 2 cm represents 50 km. What distance is represented by 7 cm?',
+      questionType: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      marks: 2,
+      explanation: '1 cm = 25 km. 7 cm = 7 × 25 = 175 km.',
+      options: [
+        { text: '175 km', isCorrect: true },
+        { text: '150 km', isCorrect: false },
+        { text: '200 km', isCorrect: false },
+        { text: '140 km', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C5-MATH-FAR-003',
+      questionText: 'A map scale key converts smaller measured map lengths into larger actual real-world distances.',
+      questionType: 'TRUE_FALSE',
+      difficulty: 'EASY',
+      bloomLevel: 'UNDERSTAND',
+      competency: 'CONCEPTUAL',
+      marks: 1,
+      explanation: 'Scale ratio links map measurements to real distances.',
+      options: [
+        { text: 'True', isCorrect: true },
+        { text: 'False', isCorrect: false },
+      ],
+    },
+  ],
+};

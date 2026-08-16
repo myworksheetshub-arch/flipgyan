@@ -1,0 +1,178 @@
+export const ch3LinearEquationsClass10Data = {
+  classNumber: 10,
+  className: 'Class 10',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH10',
+  chapterNumber: 3,
+  chapterTitle: 'Pair of Linear Equations in Two Variables',
+  summary: 'Graphical method, algebraic methods (Substitution, Elimination), conditions for consistency (Unique solution a1/a2 ≠ b1/b2, Infinitely many a1/a2 = b1/b2 = c1/c2, No solution a1/a2 = b1/b2 ≠ c1/c2).',
+  contentMarkdown: `# Chapter 3: Pair of Linear Equations (Class 10 Mathematics NEP 2025)
+
+## Consistency Conditions for Pair of Equations
+For $a_1 x + b_1 y + c_1 = 0$ and $a_2 x + b_2 y + c_2 = 0$:
+1. **Intersecting Lines (Unique Solution)**:
+   $$\\frac{a_1}{a_2} \\neq \\frac{b_1}{b_2}$$
+2. **Coincident Lines (Infinitely Many Solutions)**:
+   $$\\frac{a_1}{a_2} = \\frac{b_1}{b_2} = \\frac{c_1}{c_2}$$
+3. **Parallel Lines (No Solution / Inconsistent)**:
+   $$\\frac{a_1}{a_2} = \\frac{b_1}{b_2} \\neq \\frac{c_1}{c_2}$$
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Pair of Linear Equations',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'conditions',
+          label: 'Consistency Conditions',
+          type: 'category',
+          children: [
+            { id: 'unique', label: 'Unique: a1/a2 ≠ b1/b2', type: 'concept' },
+            { id: 'infinite', label: 'Infinite: a1/a2 = b1/b2 = c1/c2', type: 'concept' },
+            { id: 'none', label: 'No Sol: a1/a2 = b1/b2 ≠ c1/c2', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C10-MATH-CH3-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'For what condition does a system of linear equations have NO solution (parallel lines)?',
+      explanation: 'Parallel lines occur when a1/a2 = b1/b2 ≠ c1/c2.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'a1/a2 = b1/b2 ≠ c1/c2', isCorrect: true },
+        { optionLabel: 'B', optionText: 'a1/a2 ≠ b1/b2', isCorrect: false },
+        { optionLabel: 'C', optionText: 'a1/a2 = b1/b2 = c1/c2', isCorrect: false },
+        { optionLabel: 'D', optionText: 'a1/a2 = c1/c2', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH3-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find k for which the system x + 2y = 3 and 5x + ky + 7 = 0 has a UNIQUE solution.',
+      explanation: 'For unique solution: a1/a2 ≠ b1/b2 => 1/5 ≠ 2/k => k ≠ 10.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'k ≠ 10', isCorrect: true },
+        { optionLabel: 'B', optionText: 'k = 10', isCorrect: false },
+        { optionLabel: 'C', optionText: 'k ≠ 5', isCorrect: false },
+        { optionLabel: 'D', optionText: 'k = 2', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH3-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'Solve for x and y: 2x + 3y = 11 and 2x - 4y = -24.',
+      explanation: 'Subtracting: 7y = 35 => y = 5. Substituting y = 5: 2x + 15 = 11 => 2x = -4 => x = -2.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'x = -2, y = 5', isCorrect: true },
+        { optionLabel: 'B', optionText: 'x = 2, y = 5', isCorrect: false },
+        { optionLabel: 'C', optionText: 'x = -2, y = -5', isCorrect: false },
+        { optionLabel: 'D', optionText: 'x = 3, y = 1', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH3-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'A boat goes 30 km upstream and 44 km downstream in 10 hours. If speed of stream is y and boat in still water is x, write the upstream speed.',
+      explanation: 'Upstream speed = (x - y) km/h; Downstream speed = (x + y) km/h.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '(x - y) km/h', isCorrect: true },
+        { optionLabel: 'B', optionText: '(x + y) km/h', isCorrect: false },
+        { optionLabel: 'C', optionText: 'x/y km/h', isCorrect: false },
+        { optionLabel: 'D', optionText: 'xy km/h', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH3-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Board/Olympiad] Solve the system: 217x + 131y = 913 and 131x + 217y = 827.',
+      explanation: 'Add equations: 348x + 348y = 1740 => x + y = 5. Subtract equations: 86x - 86y = 86 => x - y = 1. Solving x + y = 5 and x - y = 1 gives x = 3, y = 2.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'x = 3, y = 2', isCorrect: true },
+        { optionLabel: 'B', optionText: 'x = 2, y = 3', isCorrect: false },
+        { optionLabel: 'C', optionText: 'x = 5, y = 1', isCorrect: false },
+        { optionLabel: 'D', optionText: 'x = 4, y = 1', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH3-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] Find k for which the system kx + 3y = -(k - 3) and 12x + ky = -k has infinitely many solutions.',
+      explanation: 'a1/a2 = b1/b2 = c1/c2 => k/12 = 3/k = (k-3)/k. k² = 36 => k = ±6. Also 3/k = (k-3)/k => k - 3 = 3 => k = 6. So k = 6.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'k = 6', isCorrect: true },
+        { optionLabel: 'B', optionText: 'k = -6', isCorrect: false },
+        { optionLabel: 'C', optionText: 'k = 3', isCorrect: false },
+        { optionLabel: 'D', optionText: 'k = 12', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH3-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'If the lines representing linear equations are coincident, then the system has:',
+      explanation: 'Coincident lines overlap completely, giving infinitely many solutions.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'Infinitely many solutions', isCorrect: true },
+        { optionLabel: 'B', optionText: 'No solution', isCorrect: false },
+        { optionLabel: 'C', optionText: 'Exactly one solution', isCorrect: false },
+        { optionLabel: 'D', optionText: 'Exactly two solutions', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH3-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: '5 chairs and 4 tables cost ₹5600, while 4 chairs and 3 tables cost ₹4340. Find the cost of 1 chair.',
+      explanation: '5c + 4t = 5600, 4c + 3t = 4340. Multiplying: 15c + 12t = 16800, 16c + 12t = 17360. Subtracting: c = ₹560.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '₹560', isCorrect: true },
+        { optionLabel: 'B', optionText: '₹700', isCorrect: false },
+        { optionLabel: 'C', optionText: '₹480', isCorrect: false },
+        { optionLabel: 'D', optionText: '₹600', isCorrect: false },
+      ],
+    },
+  ],
+};

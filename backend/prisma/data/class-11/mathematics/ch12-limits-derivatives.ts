@@ -1,0 +1,177 @@
+export const ch12LimitsDerivativesClass11Data = {
+  classNumber: 11,
+  className: 'Class 11',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH11',
+  chapterNumber: 12,
+  chapterTitle: 'Limits and Derivatives',
+  summary: 'Intuitive idea of limits, Standard limits lim(x->a) (xⁿ - aⁿ)/(x - a) = n a^(n-1), Trigonometric limit lim(x->0) (sin x / x) = 1, Derivative as rate of change (First Principles), Power Rule d/dx(xⁿ) = n x^(n-1), Product & Quotient Rules.',
+  contentMarkdown: `# Chapter 12: Limits and Derivatives (Class 11 Mathematics NEP 2025)
+
+## 1. Standard Limits
+1. $\\lim_{x \\to a} \\frac{x^n - a^n}{x - a} = n a^{n-1}$
+2. $\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1 \\quad \\text{and} \\quad \\lim_{x \\to 0} \\frac{1 - \\cos x}{x} = 0$
+
+## 2. Derivative Rules
+- **Power Rule**: $\\frac{d}{dx}(x^n) = n x^{n-1}$
+- **Product Rule**: $\\frac{d}{dx}(u \\cdot v) = u \\frac{dv}{dx} + v \\frac{du}{dx}$
+- **Quotient Rule**: $\\frac{d}{dx}\\left(\\frac{u}{v}\\right) = \\frac{v \\frac{du}{dx} - u \\frac{dv}{dx}}{v^2}$
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Limits & Derivatives',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'diff-rules',
+          label: 'Derivative Rules',
+          type: 'category',
+          children: [
+            { id: 'power-rule', label: 'd/dx(xⁿ) = n x^(n-1)', type: 'concept' },
+            { id: 'trig-lim', label: 'lim(x->0) (sin x / x) = 1', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C11-MATH-CH12-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'Evaluate the standard limit: lim (x → 0) (sin 5x / x).',
+      explanation: 'lim (x → 0) (5 × sin 5x / 5x) = 5 × 1 = 5.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '5', isCorrect: true },
+        { optionLabel: 'B', optionText: '1', isCorrect: false },
+        { optionLabel: 'C', optionText: '0', isCorrect: false },
+        { optionLabel: 'D', optionText: '1/5', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH12-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the derivative of f(x) = x⁵ - 3x² + 7 with respect to x.',
+      explanation: 'd/dx(x⁵ - 3x² + 7) = 5x⁴ - 6x + 0 = 5x⁴ - 6x.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '5x⁴ - 6x', isCorrect: true },
+        { optionLabel: 'B', optionText: '5x⁴ - 3x', isCorrect: false },
+        { optionLabel: 'C', optionText: 'x⁴ - 6x + 7', isCorrect: false },
+        { optionLabel: 'D', optionText: '5x⁴ - 6x + 7', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH12-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Evaluate the limit: lim (x → 2) (x¹⁰ - 1024) / (x - 2).',
+      explanation: '1024 = 2¹⁰. Formula lim (x → a) (xⁿ - aⁿ)/(x - a) = n aⁿ⁻¹ = 10 (2⁹) = 10 × 512 = 5120.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '5120', isCorrect: true },
+        { optionLabel: 'B', optionText: '1024', isCorrect: false },
+        { optionLabel: 'C', optionText: '2560', isCorrect: false },
+        { optionLabel: 'D', optionText: '512', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH12-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'Find the derivative of f(x) = x³ sin x using the Product Rule.',
+      explanation: 'd/dx (x³ sin x) = x³ d/dx(sin x) + sin x d/dx(x³) = x³ cos x + 3x² sin x.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'x³ cos x + 3x² sin x', isCorrect: true },
+        { optionLabel: 'B', optionText: '3x² cos x', isCorrect: false },
+        { optionLabel: 'C', optionText: 'x³ cos x - 3x² sin x', isCorrect: false },
+        { optionLabel: 'D', optionText: '3x² sin x', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH12-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [JEE Main / Olympiad] Evaluate the limit: lim (x → 0) (tan x - sin x) / x³.',
+      explanation: 'lim (x → 0) (sin x / cos x - sin x) / x³ = lim (x → 0) (sin x (1 - cos x)) / (x³ cos x) = lim (x → 0) (sin x / x) × ((1 - cos x) / x²) × (1 / cos x) = 1 × (1/2) × 1 = 1/2.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '1/2', isCorrect: true },
+        { optionLabel: 'B', optionText: '1', isCorrect: false },
+        { optionLabel: 'C', optionText: '0', isCorrect: false },
+        { optionLabel: 'D', optionText: '1/4', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH12-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] Find the derivative of f(x) = (x + cos x) / tan x using Quotient Rule.',
+      explanation: 'f\'(x) = (tan x d/dx(x + cos x) - (x + cos x) d/dx(tan x)) / tan²x = (tan x(1 - sin x) - (x + cos x) sec²x) / tan²x.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '(tan x (1 - sin x) - (x + cos x) sec²x) / tan²x', isCorrect: true },
+        { optionLabel: 'B', optionText: '(1 - sin x) / sec²x', isCorrect: false },
+        { optionLabel: 'C', optionText: '(tan x + sec²x) / tan x', isCorrect: false },
+        { optionLabel: 'D', optionText: '1 - cos x', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH12-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'What is the derivative of a CONSTANT function c with respect to x?',
+      explanation: 'The derivative of any constant value is 0.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '0', isCorrect: true },
+        { optionLabel: 'B', optionText: '1', isCorrect: false },
+        { optionLabel: 'C', optionText: 'c', isCorrect: false },
+        { optionLabel: 'D', optionText: 'x', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH12-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Evaluate the limit: lim (x → 0) (√(1 + x) - 1) / x.',
+      explanation: 'Rationalising numerator: lim (x → 0) ((1 + x) - 1) / (x (√(1 + x) + 1)) = lim (x → 0) 1 / (√(1 + x) + 1) = 1 / (1 + 1) = 1/2.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '1/2', isCorrect: true },
+        { optionLabel: 'B', optionText: '1', isCorrect: false },
+        { optionLabel: 'C', optionText: '0', isCorrect: false },
+        { optionLabel: 'D', optionText: '2', isCorrect: false },
+      ],
+    },
+  ],
+};

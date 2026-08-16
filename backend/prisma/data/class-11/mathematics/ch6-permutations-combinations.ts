@@ -1,0 +1,178 @@
+export const ch6PermutationsCombinationsClass11Data = {
+  classNumber: 11,
+  className: 'Class 11',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH11',
+  chapterNumber: 6,
+  chapterTitle: 'Permutations and Combinations',
+  summary: 'Fundamental Principle of Counting (Multiplication & Addition rules), Factorial notation n!, Permutations P(n, r) = n!/(n-r)!, Combinations C(n, r) = n!/(r!(n-r)!), Properties of nCr.',
+  contentMarkdown: `# Chapter 6: Permutations and Combinations (Class 11 Mathematics NEP 2025)
+
+## 1. Permutation vs Combination
+- **Permutation**: Arrangement where **ORDER MATTERS**.
+  $$^n P_r = \\frac{n!}{(n - r)!}$$
+- **Combination**: Selection where **ORDER DOES NOT MATTER**.
+  $$^n C_r = \\frac{n!}{r!(n - r)!}$$
+
+## 2. Key Combination Identity
+$$^n C_r = ^n C_{n-r} \\quad \\text{and} \\quad ^n C_r + ^n C_{r-1} = ^{n+1} C_r$$
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Permutations & Combinations',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'perm-comb-formula',
+          label: 'Core Formulas',
+          type: 'category',
+          children: [
+            { id: 'nPr', label: 'nPr = n! / (n-r)!', type: 'concept' },
+            { id: 'nCr', label: 'nCr = n! / (r! (n-r)!)', type: 'concept' },
+            { id: 'pascal-id', label: 'nCr + nCr-1 = n+1Cr', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C11-MATH-CH6-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'Evaluate the value of ⁰P₀ + ⁵C₅.',
+      explanation: '⁰P₀ = 1, ⁵C₅ = 1. Sum = 1 + 1 = 2.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '2', isCorrect: true },
+        { optionLabel: 'B', optionText: '1', isCorrect: false },
+        { optionLabel: 'C', optionText: '5', isCorrect: false },
+        { optionLabel: 'D', optionText: '0', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH6-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'If ⁿC₈ = ⁿC₂, find n.',
+      explanation: 'ⁿC_a = ⁿC_b => a + b = n => n = 8 + 2 = 10.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '10', isCorrect: true },
+        { optionLabel: 'B', optionText: '6', isCorrect: false },
+        { optionLabel: 'C', optionText: '16', isCorrect: false },
+        { optionLabel: 'D', optionText: '12', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH6-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'How many 4-digit numbers can be formed using the digits 1, 2, 3, 4, 5 if NO digit is repeated?',
+      explanation: '⁵P₄ = 5! / (5-4)! = 120 / 1 = 120.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '120', isCorrect: true },
+        { optionLabel: 'B', optionText: '625', isCorrect: false },
+        { optionLabel: 'C', optionText: '24', isCorrect: false },
+        { optionLabel: 'D', optionText: '60', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH6-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'In how many ways can a committee of 3 men and 2 women be selected from a group of 5 men and 4 women?',
+      explanation: '⁵C₃ × ⁴C₂ = 10 × 6 = 60 ways.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '60', isCorrect: true },
+        { optionLabel: 'B', optionText: '120', isCorrect: false },
+        { optionLabel: 'C', optionText: '20', isCorrect: false },
+        { optionLabel: 'D', optionText: '40', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH6-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [JEE Main / Olympiad] How many words (with or without meaning) can be formed from the letters of the word "DAUGHTER" so that all VOWELS ALWAYS OCCUR TOGETHER?',
+      explanation: 'Vowels: A, U, E (3 vowels). Bundle them as 1 unit. Remaining consonants: D, G, H, T, R (5 consonants). Total units = 5 + 1 = 6. Arrange 6 units in 6! = 720 ways. Arrange 3 vowels internally in 3! = 6 ways. Total = 720 × 6 = 4320 ways.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '4320', isCorrect: true },
+        { optionLabel: 'B', optionText: '720', isCorrect: false },
+        { optionLabel: 'C', optionText: '40320', isCorrect: false },
+        { optionLabel: 'D', optionText: '3600', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH6-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] What is the total number of diagonals in a polygon of n sides?',
+      explanation: 'Number of diagonals = ⁿC₂ - n = n(n - 1)/2 - n = n(n - 3)/2.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'n(n - 3) / 2', isCorrect: true },
+        { optionLabel: 'B', optionText: 'n(n - 1) / 2', isCorrect: false },
+        { optionLabel: 'C', optionText: 'n(n - 2) / 2', isCorrect: false },
+        { optionLabel: 'D', optionText: 'ⁿC₂', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH6-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'What is the value of 0! (Zero Factorial)?',
+      explanation: 'By definition in mathematics, 0! = 1.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '1', isCorrect: true },
+        { optionLabel: 'B', optionText: '0', isCorrect: false },
+        { optionLabel: 'C', optionText: 'Undefined', isCorrect: false },
+        { optionLabel: 'D', optionText: 'Infinity', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C11-MATH-CH6-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'If ²ⁿC₃ : ⁿC₃ = 12 : 1, find n.',
+      explanation: '((2n)(2n-1)(2n-2)/6) / (n(n-1)(n-2)/6) = 12/1 => 4(2n-1)/(n-2) = 12 => 2n - 1 = 3n - 6 => n = 5.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'n = 5', isCorrect: true },
+        { optionLabel: 'B', optionText: 'n = 6', isCorrect: false },
+        { optionLabel: 'C', optionText: 'n = 4', isCorrect: false },
+        { optionLabel: 'D', optionText: 'n = 8', isCorrect: false },
+      ],
+    },
+  ],
+};

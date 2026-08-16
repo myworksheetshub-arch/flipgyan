@@ -1,0 +1,178 @@
+export const ch7IntegralsClass12Data = {
+  classNumber: 12,
+  className: 'Class 12',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH12',
+  chapterNumber: 7,
+  chapterTitle: 'Integrals',
+  summary: 'Integration as inverse process of differentiation, Methods (Substitution, Partial Fractions, Integration by Parts ∫ u v dx = u ∫v dx - ∫(u\' ∫v dx) dx), Definite Integrals & fundamental properties.',
+  contentMarkdown: `# Chapter 7: Integrals (Class 12 Mathematics NEP 2025)
+
+## 1. Integration by Parts
+$$\\int u \\cdot v \\, dx = u \\int v \\, dx - \\int \\left( \\frac{du}{dx} \\int v \\, dx \\right) dx \\quad (\\text{ILATE rule})$$
+- Special form: $\\int e^x [f(x) + f'(x)] \\, dx = e^x f(x) + C$
+
+## 2. Definite Integral King's Property
+$$\\int_{a}^{b} f(x) \\, dx = \\int_{a}^{b} f(a + b - x) \\, dx$$
+- For symmetric bounds:
+  $$\\int_{-a}^{a} f(x) \\, dx = \\begin{cases} 2 \\int_{0}^{a} f(x) \\, dx & f(x) \\text{ is EVEN} \\\\ 0 & f(x) \\text{ is ODD} \\end{cases}$$
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Integrals Calculus',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'integ-methods',
+          label: 'Methods of Integration',
+          type: 'category',
+          children: [
+            { id: 'parts-rule', label: 'ILATE Integration by Parts', type: 'concept' },
+            { id: 'ex-f-fprime', label: '∫ e^x [f(x) + f\'(x)] dx = e^x f(x)', type: 'concept' },
+            { id: 'kings-prop', label: 'King\'s Property ∫ f(x) = ∫ f(a+b-x)', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C12-MATH-CH7-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Evaluate the indefinite integral: ∫ (2x + 3)⁵ dx.',
+      explanation: '∫ (2x + 3)⁵ dx = (2x + 3)⁶ / (6 × 2) + C = (2x + 3)⁶ / 12 + C.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '(2x + 3)⁶ / 12 + C', isCorrect: true },
+        { optionLabel: 'B', optionText: '(2x + 3)⁶ / 6 + C', isCorrect: false },
+        { optionLabel: 'C', optionText: '(2x + 3)⁴ / 10 + C', isCorrect: false },
+        { optionLabel: 'D', optionText: '5(2x + 3)⁴ + C', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH7-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'Evaluate the definite integral of an ODD function: ∫_{-a}^{a} sin⁵x dx.',
+      explanation: 'sin⁵x is an ODD function (f(-x) = -f(x)), so integral over symmetric bounds [-a, a] is 0.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '0', isCorrect: true },
+        { optionLabel: 'B', optionText: '2', isCorrect: false },
+        { optionLabel: 'C', optionText: '2a', isCorrect: false },
+        { optionLabel: 'D', optionText: '1', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH7-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Evaluate: ∫ e^x (sin x + cos x) dx.',
+      explanation: 'Standard form ∫ e^x [f(x) + f\'(x)] dx = e^x f(x) + C where f(x) = sin x. Result = e^x sin x + C.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'e^x sin x + C', isCorrect: true },
+        { optionLabel: 'B', optionText: 'e^x cos x + C', isCorrect: false },
+        { optionLabel: 'C', optionText: '-e^x cos x + C', isCorrect: false },
+        { optionLabel: 'D', optionText: 'e^x (sin x - cos x) + C', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH7-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'Evaluate the definite integral: I = ∫_{0}^{π/2} (√sin x) / (√sin x + √cos x) dx.',
+      explanation: 'By King\'s Property: I = ∫_{0}^{π/2} (√cos x) / (√cos x + √sin x) dx. Adding both: 2I = ∫_{0}^{π/2} 1 dx = π/2 => I = π/4.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'π/4', isCorrect: true },
+        { optionLabel: 'B', optionText: 'π/2', isCorrect: false },
+        { optionLabel: 'C', optionText: 'π', isCorrect: false },
+        { optionLabel: 'D', optionText: '0', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH7-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Board/JEE Main] Evaluate: ∫ (dx / (x (xⁿ + 1))).',
+      explanation: 'Multiply num and den by xⁿ⁻¹: ∫ (xⁿ⁻¹ dx / (xⁿ (xⁿ + 1))). Let xⁿ = t => n xⁿ⁻¹ dx = dt. Integral = (1/n) ∫ dt / (t(t+1)) = (1/n) ln |t / (t+1)| + C = (1/n) ln |xⁿ / (xⁿ + 1)| + C.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '(1/n) ln |xⁿ / (xⁿ + 1)| + C', isCorrect: true },
+        { optionLabel: 'B', optionText: 'n ln |xⁿ / (xⁿ + 1)| + C', isCorrect: false },
+        { optionLabel: 'C', optionText: '(1/n) ln |xⁿ + 1| + C', isCorrect: false },
+        { optionLabel: 'D', optionText: 'ln |xⁿ / (xⁿ + 1)| + C', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH7-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] Evaluate the definite integral: ∫_{0}^{π} (x sin x / (1 + cos²x)) dx.',
+      explanation: 'By King\'s Property: I = ∫_{0}^{π} ((π - x) sin x / (1 + cos²x)) dx. 2I = π ∫_{0}^{π} (sin x / (1 + cos²x)) dx. Put u = cos x => 2I = π [-tan⁻¹(u)]₋₁¹ = π [π/4 - (-π/4)] = π²/2 => I = π²/4.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'π² / 4', isCorrect: true },
+        { optionLabel: 'B', optionText: 'π² / 2', isCorrect: false },
+        { optionLabel: 'C', optionText: 'π / 4', isCorrect: false },
+        { optionLabel: 'D', optionText: 'π²', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH7-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'Evaluate: ∫ (1 / (1 + x²)) dx.',
+      explanation: 'Standard integral = tan⁻¹ x + C.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'tan⁻¹ x + C', isCorrect: true },
+        { optionLabel: 'B', optionText: 'sin⁻¹ x + C', isCorrect: false },
+        { optionLabel: 'C', optionText: 'ln(1 + x²) + C', isCorrect: false },
+        { optionLabel: 'D', optionText: 'cot⁻¹ x + C', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH7-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Evaluate: ∫ x cos x dx using Integration by Parts.',
+      explanation: 'u = x, v = cos x. ∫ x cos x dx = x sin x - ∫ sin x dx = x sin x + cos x + C.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'x sin x + cos x + C', isCorrect: true },
+        { optionLabel: 'B', optionText: 'x sin x - cos x + C', isCorrect: false },
+        { optionLabel: 'C', optionText: '-x sin x + cos x + C', isCorrect: false },
+        { optionLabel: 'D', optionText: 'x cos x + sin x + C', isCorrect: false },
+      ],
+    },
+  ],
+};

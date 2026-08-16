@@ -1,0 +1,57 @@
+export const ch12VocabularyAndFunctionalWritingData = {
+  chapterNumber: 12,
+  title: 'Vocabulary and Functional Writing',
+  description: 'Synonyms and Antonyms, Homophones (their/there, write/right), Paragraph writing, Formal/Informal Letter writing, and Comprehension.',
+  topics: [
+    { title: 'Synonyms, Antonyms & Homophones', summary: 'Understanding word meanings, opposites, and sound-alike words.' },
+    { title: 'Functional Writing & Composition', summary: 'Structuring paragraphs, letters (formal/informal), and story building.' },
+  ],
+  questions: [
+    {
+      questionCode: 'C5-ENG-VOC-001',
+      questionText: 'Choose the correct homophone: "Please _____ your name clearly on the top _____ corner of the answer sheet."',
+      questionType: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      marks: 1,
+      explanation: '"write" means to put words on paper; "right" means direction/correct.',
+      options: [
+        { text: 'write; right', isCorrect: true },
+        { text: 'right; write', isCorrect: false },
+        { text: 'write; write', isCorrect: false },
+        { text: 'right; right', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C5-ENG-VOC-002',
+      questionText: 'What is the antonym of the word "ancient"?',
+      questionType: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      marks: 1,
+      explanation: 'The opposite of ancient (very old) is modern (recent/new).',
+      options: [
+        { text: 'modern', isCorrect: true },
+        { text: 'old', isCorrect: false },
+        { text: 'historic', isCorrect: false },
+        { text: 'aged', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C5-ENG-VOC-003',
+      questionText: 'In a formal letter to the Principal requesting leave, the salutation should be "Respected Sir / Madam".',
+      questionType: 'TRUE_FALSE',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      marks: 1,
+      explanation: 'Formal letters use respectful professional salutations.',
+      options: [
+        { text: 'True', isCorrect: true },
+        { text: 'False', isCorrect: false },
+      ],
+    },
+  ],
+};

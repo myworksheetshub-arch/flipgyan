@@ -1,0 +1,177 @@
+export const ch14ProbabilityClass10Data = {
+  classNumber: 10,
+  className: 'Class 10',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH10',
+  chapterNumber: 14,
+  chapterTitle: 'Probability',
+  summary: 'Theoretical probability P(E) = favorable/total, impossible event P=0, sure event P=1, complementary events P(E) + P(not E) = 1, deck of 52 cards.',
+  contentMarkdown: `# Chapter 14: Probability (Class 10 Mathematics NEP 2025)
+
+## 1. Classical Probability
+$$P(E) = \\frac{\\text{Number of outcomes favourable to } E}{\\text{Number of all possible outcomes of the experiment}}$$
+- Range: $0 \\le P(E) \\le 1$
+- **Complementary Event**: $P(E) + P(\\overline{E}) = 1 \\implies P(\\overline{E}) = 1 - P(E)$
+
+## 2. Standard Deck of 52 Cards
+- 4 Suits: Spades (♠), Hearts (♥), Diamonds (♦), Clubs (♣) — 13 cards each.
+- 12 **Face Cards**: Kings (4), Queens (4), Jacks (4).
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Probability Concepts',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'card-prob',
+          label: 'Deck of 52 Cards',
+          type: 'category',
+          children: [
+            { id: 'face-cards', label: '12 Face Cards (4 Kings, 4 Queens, 4 Jacks)', type: 'concept' },
+            { id: 'comp-event', label: 'P(E) + P(not E) = 1', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C10-MATH-CH14-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'If P(E) = 0.05, what is the probability of "not E" P(Ē)?',
+      explanation: 'P(E) + P(Ē) = 1 => P(Ē) = 1 - 0.05 = 0.95.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '0.95', isCorrect: true },
+        { optionLabel: 'B', optionText: '0.50', isCorrect: false },
+        { optionLabel: 'C', optionText: '0.05', isCorrect: false },
+        { optionLabel: 'D', optionText: '0.90', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH14-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'What is the probability of drawing a Face Card from a well-shuffled deck of 52 playing cards?',
+      explanation: 'Total face cards = 12 (4 Kings, 4 Queens, 4 Jacks). P = 12 / 52 = 3 / 13.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '3/13', isCorrect: true },
+        { optionLabel: 'B', optionText: '1/13', isCorrect: false },
+        { optionLabel: 'C', optionText: '4/13', isCorrect: false },
+        { optionLabel: 'D', optionText: '1/4', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH14-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'Two dice are thrown simultaneously. What is the probability of getting a sum of 8?',
+      explanation: 'Favourable outcomes for sum 8: (2,6), (3,5), (4,4), (5,3), (6,2) = 5 outcomes out of 36. P = 5/36.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '5/36', isCorrect: true },
+        { optionLabel: 'B', optionText: '1/6 (6/36)', isCorrect: false },
+        { optionLabel: 'C', optionText: '4/36', isCorrect: false },
+        { optionLabel: 'D', optionText: '7/36', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH14-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'A box contains 90 discs numbered 1 to 90. If one disc is drawn at random, find the probability that it bears a prime number less than 20.',
+      explanation: 'Primes less than 20: 2, 3, 5, 7, 11, 13, 17, 19 (8 numbers out of 90). P = 8/90 = 4/45.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '4/45', isCorrect: true },
+        { optionLabel: 'B', optionText: '8/45', isCorrect: false },
+        { optionLabel: 'C', optionText: '1/9', isCorrect: false },
+        { optionLabel: 'D', optionText: '2/45', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH14-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Board/Olympiad] What is the probability that a LEAP YEAR selected at random will contain 53 Sundays?',
+      explanation: 'A leap year has 366 days = 52 full weeks + 2 extra days. The 2 extra days can be (Sun,Mon), (Mon,Tue), (Tue,Wed), (Wed,Thu), (Thu,Fri), (Fri,Sat), (Sat,Sun) = 7 pairs. 2 pairs contain Sunday. P = 2/7.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '2/7', isCorrect: true },
+        { optionLabel: 'B', optionText: '1/7', isCorrect: false },
+        { optionLabel: 'C', optionText: '53/366', isCorrect: false },
+        { optionLabel: 'D', optionText: '52/365', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH14-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] All red face cards are removed from a deck of 52 cards. A card is then drawn at random. What is the probability of drawing a Red Card?',
+      explanation: 'Red face cards removed = 6 (3 Hearts + 3 Diamonds). Remaining total cards = 52 - 6 = 46. Remaining red cards = 26 - 6 = 20. P = 20 / 46 = 10 / 23.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '10/23', isCorrect: true },
+        { optionLabel: 'B', optionText: '1/2', isCorrect: false },
+        { optionLabel: 'C', optionText: '13/23', isCorrect: false },
+        { optionLabel: 'D', optionText: '20/52', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH14-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'Which of the following CANNOT be the probability of an event?',
+      explanation: 'Probability can never be negative (-1.5). It lies strictly in [0, 1].',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '-1.5', isCorrect: true },
+        { optionLabel: 'B', optionText: '2/3', isCorrect: false },
+        { optionLabel: 'C', optionText: '15%', isCorrect: false },
+        { optionLabel: 'D', optionText: '0.7', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH14-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'A coin is tossed 3 times. What is the probability of getting EXACTLY 2 Heads?',
+      explanation: 'Possible outcomes (2³ = 8): HHH, HHT, HTH, THH, HTT, THT, TTH, TTT. Exactly 2 Heads: (HHT, HTH, THH) = 3 outcomes. P = 3/8.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '3/8', isCorrect: true },
+        { optionLabel: 'B', optionText: '1/4', isCorrect: false },
+        { optionLabel: 'C', optionText: '1/2', isCorrect: false },
+        { optionLabel: 'D', optionText: '7/8', isCorrect: false },
+      ],
+    },
+  ],
+};

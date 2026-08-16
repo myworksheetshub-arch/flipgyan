@@ -1,0 +1,177 @@
+export const ch2PolynomialsClass10Data = {
+  classNumber: 10,
+  className: 'Class 10',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH10',
+  chapterNumber: 2,
+  chapterTitle: 'Polynomials',
+  summary: 'Geometrical meaning of zeroes, relationship between zeroes and coefficients of quadratic polynomial ax² + bx + c (α + β = -b/a, αβ = c/a).',
+  contentMarkdown: `# Chapter 2: Polynomials (Class 10 Mathematics NEP 2025)
+
+## Quadratic Polynomial Relations
+For quadratic polynomial $p(x) = ax^2 + bx + c$ with zeroes $\\alpha$ and $\\beta$:
+1. Sum of Zeroes:
+   $$\\alpha + \\beta = -\\frac{b}{a}$$
+2. Product of Zeroes:
+   $$\\alpha \\beta = \\frac{c}{a}$$
+3. Forming Quadratic Polynomial:
+   $$k[x^2 - (\\alpha + \\beta)x + \\alpha \\beta]$$
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Quadratic Polynomials',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'zero-rel',
+          label: 'Zeroes & Coefficients',
+          type: 'category',
+          children: [
+            { id: 'sum-zero', label: 'α + β = -b / a', type: 'concept' },
+            { id: 'prod-zero', label: 'α β = c / a', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C10-MATH-CH2-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'If α and β are the zeroes of polynomial p(x) = x² - 5x + 6, find (α + β).',
+      explanation: 'α + β = -b/a = -(-5)/1 = 5.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '5', isCorrect: true },
+        { optionLabel: 'B', optionText: '-5', isCorrect: false },
+        { optionLabel: 'C', optionText: '6', isCorrect: false },
+        { optionLabel: 'D', optionText: '-6', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH2-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the product of zeroes of the quadratic polynomial p(x) = 2x² - 8x + 6.',
+      explanation: 'αβ = c/a = 6 / 2 = 3.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '3', isCorrect: true },
+        { optionLabel: 'B', optionText: '-4', isCorrect: false },
+        { optionLabel: 'C', optionText: '4', isCorrect: false },
+        { optionLabel: 'D', optionText: '6', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH2-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'If one zero of the quadratic polynomial (k - 1)x² + kx + 1 is -3, then the value of k is:',
+      explanation: 'p(-3) = 0 => (k - 1)(-3)² + k(-3) + 1 = 0 => 9(k - 1) - 3k + 1 = 0 => 6k - 8 = 0 => k = 8/6 = 4/3.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '4/3', isCorrect: true },
+        { optionLabel: 'B', optionText: '-4/3', isCorrect: false },
+        { optionLabel: 'C', optionText: '2/3', isCorrect: false },
+        { optionLabel: 'D', optionText: '-2/3', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH2-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'Find a quadratic polynomial whose sum and product of zeroes are -3 and 2 respectively.',
+      explanation: 'Formula = x² - (α+β)x + αβ = x² - (-3)x + 2 = x² + 3x + 2.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'x² + 3x + 2', isCorrect: true },
+        { optionLabel: 'B', optionText: 'x² - 3x + 2', isCorrect: false },
+        { optionLabel: 'C', optionText: 'x² + 3x - 2', isCorrect: false },
+        { optionLabel: 'D', optionText: 'x² - 3x - 2', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH2-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Board/Olympiad] If α and β are zeroes of x² - p(x + 1) - c, then (α + 1)(β + 1) equals:',
+      explanation: 'p(x) = x² - px - (p + c). α + β = p, αβ = -(p + c). (α+1)(β+1) = αβ + (α+β) + 1 = -(p+c) + p + 1 = 1 - c.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '1 - c', isCorrect: true },
+        { optionLabel: 'B', optionText: 'c - 1', isCorrect: false },
+        { optionLabel: 'C', optionText: '1 + c', isCorrect: false },
+        { optionLabel: 'D', optionText: 'c', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH2-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] If α and β are zeroes of 2x² + 5x + k such that α² + β² + αβ = 21/4, find the value of k.',
+      explanation: 'α+β = -5/2, αβ = k/2. (α+β)² - αβ = 21/4 => (-5/2)² - k/2 = 21/4 => 25/4 - k/2 = 21/4 => k/2 = 4/4 = 1 => k = 2.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'k = 2', isCorrect: true },
+        { optionLabel: 'B', optionText: 'k = 3', isCorrect: false },
+        { optionLabel: 'C', optionText: 'k = -2', isCorrect: false },
+        { optionLabel: 'D', optionText: 'k = 5', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH2-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'The number of zeroes of a polynomial p(x) whose graph intersects the X-axis at 3 points is:',
+      explanation: 'The number of zeroes of p(x) equals the number of points where its graph intersects the X-axis (3 zeroes).',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '3', isCorrect: true },
+        { optionLabel: 'B', optionText: '1', isCorrect: false },
+        { optionLabel: 'C', optionText: '2', isCorrect: false },
+        { optionLabel: 'D', optionText: '4', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C10-MATH-CH2-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'If α, β are zeroes of x² - 6x + k and 3α + 2β = 20, find k.',
+      explanation: 'α + β = 6 => 2α + 2β = 12. Subtracting from 3α + 2β = 20 gives α = 8. Then β = -2. k = αβ = 8(-2) = -16.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '-16', isCorrect: true },
+        { optionLabel: 'B', optionText: '16', isCorrect: false },
+        { optionLabel: 'C', optionText: '-8', isCorrect: false },
+        { optionLabel: 'D', optionText: '12', isCorrect: false },
+      ],
+    },
+  ],
+};

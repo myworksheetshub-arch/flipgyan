@@ -1,0 +1,180 @@
+export const ch3CoordinateGeometryClass9Data = {
+  classNumber: 9,
+  className: 'Class 9',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH9',
+  chapterNumber: 3,
+  chapterTitle: 'Coordinate Geometry',
+  summary: 'Cartesian plane, axes (X and Y), origin (0, 0), four quadrants, abscissa and ordinate, plotting points in Cartesian plane.',
+  contentMarkdown: `# Chapter 3: Coordinate Geometry (Class 9 Mathematics NEP 2025)
+
+## 1. Cartesian Plane & Quadrants
+- **Origin**: Intersection $(0, 0)$.
+- **Abscissa**: x-coordinate (distance from Y-axis).
+- **Ordinate**: y-coordinate (distance from X-axis).
+- **Quadrants**:
+  - Quadrant I: $(+, +)$
+  - Quadrant II: $(-, +)$
+  - Quadrant III: $(-, -)$
+  - Quadrant IV: $(+, -)$
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Coordinate Geometry',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'quadrants',
+          label: '4 Quadrants',
+          type: 'category',
+          children: [
+            { id: 'q1', label: 'Q I: (+, +)', type: 'concept' },
+            { id: 'q2', label: 'Q II: (-, +)', type: 'concept' },
+            { id: 'q3', label: 'Q III: (-, -)', type: 'concept' },
+            { id: 'q4', label: 'Q IV: (+, -)', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C9-MATH-CH3-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'In which quadrant does the point (-3, 5) lie?',
+      explanation: 'x-coordinate is negative (-) and y-coordinate is positive (+), so it lies in Quadrant II.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'Quadrant II', isCorrect: true },
+        { optionLabel: 'B', optionText: 'Quadrant I', isCorrect: false },
+        { optionLabel: 'C', optionText: 'Quadrant III', isCorrect: false },
+        { optionLabel: 'D', optionText: 'Quadrant IV', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C9-MATH-CH3-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'What is the perpendicular distance of the point P(4, 3) from the X-axis?',
+      explanation: 'The perpendicular distance of a point from the X-axis is given by the absolute value of its y-coordinate (|3| = 3 units).',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '3 units', isCorrect: true },
+        { optionLabel: 'B', optionText: '4 units', isCorrect: false },
+        { optionLabel: 'C', optionText: '5 units', isCorrect: false },
+        { optionLabel: 'D', optionText: '7 units', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C9-MATH-CH3-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'If the coordinates of two points are A(-2, 5) and B(-2, -3), what is the length of the line segment AB?',
+      explanation: 'Since x-coordinates are equal (-2), the segment is vertical. Length = |5 - (-3)| = |5 + 3| = 8 units.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '8 units', isCorrect: true },
+        { optionLabel: 'B', optionText: '2 units', isCorrect: false },
+        { optionLabel: 'C', optionText: '4 units', isCorrect: false },
+        { optionLabel: 'D', optionText: '10 units', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C9-MATH-CH3-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'UNDERSTAND',
+      competency: 'CONCEPTUAL',
+      questionText: 'On which axis does the point (0, -7) lie?',
+      explanation: 'Since the x-coordinate is 0, the point lies on the Y-axis (negative Y-axis).',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'Y-axis', isCorrect: true },
+        { optionLabel: 'B', optionText: 'X-axis', isCorrect: false },
+        { optionLabel: 'C', optionText: 'Quadrant III', isCorrect: false },
+        { optionLabel: 'D', optionText: 'Quadrant IV', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C9-MATH-CH3-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'LOGICAL_REASONING',
+      questionText: '🏆 [CBSE Olympiad] Points O(0,0), A(4,0), B(4,3), C(0,3) form a rectangle OABC. What is the length of its diagonal OB?',
+      explanation: 'In right triangle OAB: OA = 4, AB = 3. OB = √(4² + 3²) = √(16 + 9) = √25 = 5 units.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '5 units', isCorrect: true },
+        { optionLabel: 'B', optionText: '7 units', isCorrect: false },
+        { optionLabel: 'C', optionText: '12 units', isCorrect: false },
+        { optionLabel: 'D', optionText: '25 units', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C9-MATH-CH3-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] If the abscissa of a point is positive and its ordinate is negative, in which quadrant is its mirror image across the X-axis located?',
+      explanation: 'Point (x, -y) is in Q IV. Its mirror image across X-axis changes y sign to (x, y), which is in Quadrant I.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'Quadrant I', isCorrect: true },
+        { optionLabel: 'B', optionText: 'Quadrant II', isCorrect: false },
+        { optionLabel: 'C', optionText: 'Quadrant III', isCorrect: false },
+        { optionLabel: 'D', optionText: 'Quadrant IV', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C9-MATH-CH3-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'What is the name of the horizontal line drawn to determine the position of any point in the Cartesian plane?',
+      explanation: 'The horizontal line is called the X-axis.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'X-axis', isCorrect: true },
+        { optionLabel: 'B', optionText: 'Y-axis', isCorrect: false },
+        { optionLabel: 'C', optionText: 'Origin', isCorrect: false },
+        { optionLabel: 'D', optionText: 'Abscissa', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C9-MATH-CH3-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Signs of Abscissa and Ordinate of a point in Quadrant III are respectively:',
+      explanation: 'In Quadrant III, both x and y coordinates are negative: (-, -).',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '(-, -)', isCorrect: true },
+        { optionLabel: 'B', optionText: '(+, +)', isCorrect: false },
+        { optionLabel: 'C', optionText: '(-, +)', isCorrect: false },
+        { optionLabel: 'D', optionText: '(+, -)', isCorrect: false },
+      ],
+    },
+  ],
+};

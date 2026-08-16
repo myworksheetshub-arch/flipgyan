@@ -1,0 +1,177 @@
+export const ch6ApplicationOfDerivativesClass12Data = {
+  classNumber: 12,
+  className: 'Class 12',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH12',
+  chapterNumber: 6,
+  chapterTitle: 'Application of Derivatives',
+  summary: 'Rate of change of quantities dy/dx, Increasing and Decreasing functions (f\'(x) > 0 / f\'(x) < 0), Maxima and Minima (First and Second Derivative Tests).',
+  contentMarkdown: `# Chapter 6: Application of Derivatives (Class 12 Mathematics NEP 2025)
+
+## 1. Increasing & Decreasing Functions
+- **Strictly Increasing**: $f'(x) > 0 \\quad \\forall x \\in (a, b)$
+- **Strictly Decreasing**: $f'(x) < 0 \\quad \\forall x \\in (a, b)$
+
+## 2. Maxima and Minima (Second Derivative Test)
+Let $c$ be a critical point ($f'(c) = 0$):
+1. If $f''(c) < 0 \\implies c$ is a point of **Local Maximum**.
+2. If $f''(c) > 0 \\implies c$ is a point of **Local Minimum**.
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Applications of Derivatives',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'max-min',
+          label: 'Second Derivative Test',
+          type: 'category',
+          children: [
+            { id: 'f2-neg', label: 'f\'\'(c) < 0 => Local Maximum', type: 'concept' },
+            { id: 'f2-pos', label: 'f\'\'(c) > 0 => Local Minimum', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C12-MATH-CH6-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the rate of change of area of a circle with respect to its radius r when r = 6 cm.',
+      explanation: 'A = π r² => dA/dr = 2 π r. At r = 6 cm: dA/dr = 2 π (6) = 12π cm²/cm.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '12π cm²/cm', isCorrect: true },
+        { optionLabel: 'B', optionText: '36π cm²/cm', isCorrect: false },
+        { optionLabel: 'C', optionText: '6π cm²/cm', isCorrect: false },
+        { optionLabel: 'D', optionText: '24π cm²/cm', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH6-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'A function f(x) is STRICTLY INCREASING on an interval (a, b) if for all x in (a, b):',
+      explanation: 'f\'(x) > 0 for all x in (a, b).',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'f\'(x) > 0', isCorrect: true },
+        { optionLabel: 'B', optionText: 'f\'(x) < 0', isCorrect: false },
+        { optionLabel: 'C', optionText: 'f\'(x) = 0', isCorrect: false },
+        { optionLabel: 'D', optionText: 'f\'\'(x) < 0', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH6-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the interval in which f(x) = 2x³ - 3x² - 36x + 7 is strictly increasing.',
+      explanation: 'f\'(x) = 6x² - 6x - 36 = 6(x² - x - 6) = 6(x - 3)(x + 2). f\'(x) > 0 on (-∞, -2) ∪ (3, ∞).',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '(-∞, -2) ∪ (3, ∞)', isCorrect: true },
+        { optionLabel: 'B', optionText: '(-2, 3)', isCorrect: false },
+        { optionLabel: 'C', optionText: '(-∞, 3)', isCorrect: false },
+        { optionLabel: 'D', optionText: '(2, ∞)', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH6-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'Find two positive numbers x and y such that x + y = 60 and xy³ is MAXIMUM.',
+      explanation: 'P = x y³ = (60 - y)y³ = 60y³ - y⁴. dP/dy = 180y² - 4y³ = 4y²(45 - y) = 0 => y = 45, x = 15.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'x = 15, y = 45', isCorrect: true },
+        { optionLabel: 'B', optionText: 'x = 30, y = 30', isCorrect: false },
+        { optionLabel: 'C', optionText: 'x = 45, y = 15', isCorrect: false },
+        { optionLabel: 'D', optionText: 'x = 20, y = 40', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH6-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Board/JEE Main] A rectangle is inscribed in a semi-circle of radius R with one of its sides on the diameter. The maximum area of the rectangle is:',
+      explanation: 'Let dimensions be 2x and y. x² + y² = R². Area A = 2x y = 2x √(R² - x²). A² = 4x²(R² - x²). Differentiating gives x = R/√2, y = R/√2. Max Area = 2(R/√2)(R/√2) = R².',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'R²', isCorrect: true },
+        { optionLabel: 'B', optionText: '2 R²', isCorrect: false },
+        { optionLabel: 'C', optionText: 'R² / 2', isCorrect: false },
+        { optionLabel: 'D', optionText: 'π R²', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH6-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] The maximum value of the function f(x) = (1/x)^x for x > 0 is:',
+      explanation: 'f(x) = x^(-x). Take ln: g(x) = -x ln x. g\'(x) = -(1 + ln x) = 0 => ln x = -1 => x = 1/e. Max value = (e)^(1/e).',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: 'e^(1/e)', isCorrect: true },
+        { optionLabel: 'B', optionText: '(1/e)^e', isCorrect: false },
+        { optionLabel: 'C', optionText: 'e^e', isCorrect: false },
+        { optionLabel: 'D', optionText: '1/e', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH6-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'The total revenue R(x) in Rupees from the sale of x units of a product is R(x) = 3x² + 36x + 5. Find Marginal Revenue at x = 15.',
+      explanation: 'Marginal Revenue MR = dR/dx = 6x + 36. At x = 15: MR = 6(15) + 36 = 90 + 36 = 126.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '₹126', isCorrect: true },
+        { optionLabel: 'B', optionText: '₹116', isCorrect: false },
+        { optionLabel: 'C', optionText: '₹90', isCorrect: false },
+        { optionLabel: 'D', optionText: '₹136', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C12-MATH-CH6-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the minimum value of f(x) = x² + 250 / x for x > 0.',
+      explanation: 'f\'(x) = 2x - 250/x² = 0 => 2x³ = 250 => x³ = 125 => x = 5. Min value f(5) = 25 + 250/5 = 25 + 50 = 75.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '75', isCorrect: true },
+        { optionLabel: 'B', optionText: '50', isCorrect: false },
+        { optionLabel: 'C', optionText: '100', isCorrect: false },
+        { optionLabel: 'D', optionText: '25', isCorrect: false },
+      ],
+    },
+  ],
+};

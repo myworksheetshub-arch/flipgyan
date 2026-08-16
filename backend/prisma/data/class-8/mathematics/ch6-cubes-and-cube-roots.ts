@@ -1,0 +1,176 @@
+export const ch6CubesClass8Data = {
+  classNumber: 8,
+  className: 'Class 8',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH8',
+  chapterNumber: 6,
+  chapterTitle: 'Cube and Cube Roots',
+  summary: 'Cube numbers, Hardy-Ramanujan number (1729 = 1³ + 12³ = 9³ + 10³), prime factorisation method for cube roots, estimation method.',
+  contentMarkdown: `# Chapter 6: Cube and Cube Roots (Class 8 Mathematics NEP 2025)
+
+## 1. Hardy-Ramanujan Number
+**1729** is the smallest number that can be expressed as the sum of two cubes in two different ways:
+$$1729 = 1^3 + 12^3 = 9^3 + 10^3$$
+
+## 2. Cube Root Properties
+- Symbol: $\\sqrt[3]{n}$.
+- $\\sqrt[3]{a \\times b} = \\sqrt[3]{a} \\times \\sqrt[3]{b}$
+- The cube of an odd number is always **odd**, and cube of an even number is **even**.
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Cubes & Cube Roots',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'ramanujan',
+          label: 'Hardy-Ramanujan 1729',
+          type: 'category',
+          children: [
+            { id: 'cubes-sum', label: '1729 = 1³ + 12³ = 9³ + 10³', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C8-MATH-CH6-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'Which famous number is known as the Hardy-Ramanujan Number?',
+      explanation: '1729 is known as the Hardy-Ramanujan number (1729 = 1³ + 12³ = 9³ + 10³).',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '1729', isCorrect: true },
+        { optionLabel: 'B', optionText: '1089', isCorrect: false },
+        { optionLabel: 'C', optionText: '1428', isCorrect: false },
+        { optionLabel: 'D', optionText: '1972', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH6-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'What is the cube root of 512?',
+      explanation: '8 × 8 × 8 = 512. Therefore ∛512 = 8.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '8', isCorrect: true },
+        { optionLabel: 'B', optionText: '6', isCorrect: false },
+        { optionLabel: 'C', optionText: '12', isCorrect: false },
+        { optionLabel: 'D', optionText: '16', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH6-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'What is the smallest number by which 68600 must be multiplied to get a perfect cube?',
+      explanation: '68600 = 2³ × 5² × 7³. The prime factor 5 appears only 2 times. We need one more 5 to form a triplet. Smallest number = 5.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '5', isCorrect: true },
+        { optionLabel: 'B', optionText: '2', isCorrect: false },
+        { optionLabel: 'C', optionText: '7', isCorrect: false },
+        { optionLabel: 'D', optionText: '10', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH6-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the cube root of -1331.',
+      explanation: '∛(-1331) = -11 because (-11)³ = -1331.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '-11', isCorrect: true },
+        { optionLabel: 'B', optionText: '11', isCorrect: false },
+        { optionLabel: 'C', optionText: '-13', isCorrect: false },
+        { optionLabel: 'D', optionText: '-9', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH6-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'LOGICAL_REASONING',
+      questionText: '🏆 [CBSE Olympiad] Find the cube root of 91125 using estimation.',
+      explanation: 'Group into (91)(125). Unit digit of 125 is 5 => unit digit of cube root is 5. 4³ = 64 < 91 < 125 = 5³ => tens digit is 4. Cube root = 45.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '45', isCorrect: true },
+        { optionLabel: 'B', optionText: '35', isCorrect: false },
+        { optionLabel: 'C', optionText: '55', isCorrect: false },
+        { optionLabel: 'D', optionText: '25', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH6-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] Parikshit makes a cuboid of plasticine of sides 5 cm, 2 cm, 5 cm. How many such cuboids will he need to form a perfect cube?',
+      explanation: 'Volume = 5 × 2 × 5. To make triplets of prime factors: we need one 5 and two 2s. Number of cuboids needed = 5 × 2 × 2 = 20.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '20 cuboids', isCorrect: true },
+        { optionLabel: 'B', optionText: '10 cuboids', isCorrect: false },
+        { optionLabel: 'C', optionText: '15 cuboids', isCorrect: false },
+        { optionLabel: 'D', optionText: '25 cuboids', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH6-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'What is the unit digit of the cube of a number ending in 7?',
+      explanation: '7 × 7 × 7 = 343. The unit digit of the cube of any number ending in 7 is 3.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '3', isCorrect: true },
+        { optionLabel: 'B', optionText: '7', isCorrect: false },
+        { optionLabel: 'C', optionText: '9', isCorrect: false },
+        { optionLabel: 'D', optionText: '1', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH6-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Evaluate: ∛(27 × 64).',
+      explanation: '∛(27 × 64) = ∛27 × ∛64 = 3 × 4 = 12.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '12', isCorrect: true },
+        { optionLabel: 'B', optionText: '24', isCorrect: false },
+        { optionLabel: 'C', optionText: '16', isCorrect: false },
+        { optionLabel: 'D', optionText: '18', isCorrect: false },
+      ],
+    },
+  ],
+};

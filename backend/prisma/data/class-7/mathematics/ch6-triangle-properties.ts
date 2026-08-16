@@ -1,0 +1,177 @@
+export const ch6TrianglePropertiesClass7Data = {
+  classNumber: 7,
+  className: 'Class 7',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH7',
+  chapterNumber: 6,
+  chapterTitle: 'The Triangle and Its Properties',
+  summary: 'Medians and Altitudes of a triangle, Exterior Angle Property (Ext Angle = sum of interior opp angles), Angle Sum Property (180°), Two special triangles (Equilateral & Isosceles), Sum of lengths of two sides > third side, Pythagoras Property (h² = p² + b²).',
+  contentMarkdown: `# Chapter 6: The Triangle and Its Properties (Class 7 Mathematics NEP 2025)
+
+## 1. Core Properties
+- **Angle Sum Property**: Sum of interior angles of a triangle is $180^\\circ$.
+- **Exterior Angle Property**: Exterior angle $= \\text{Sum of its two interior opposite angles}$.
+- **Triangle Inequality**: Sum of lengths of any two sides is **greater** than the third side ($a + b > c$).
+
+## 2. Pythagoras Property
+In a right-angled triangle:
+$$\\text{Hypotenuse}^2 = \\text{Base}^2 + \\text{Perpendicular}^2 \\implies h^2 = p^2 + b^2$$
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Triangle Properties',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'tri-props',
+          label: 'Core Rules',
+          type: 'category',
+          children: [
+            { id: 'ext-angle-prop', label: 'Exterior Angle = Sum of Interior Opp Angles', type: 'concept' },
+            { id: 'pythagoras-prop', label: 'Pythagoras: h² = p² + b²', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C7-MATH-CH6-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'An exterior angle of a triangle is 110° and one of its interior opposite angles is 50°. Find the other interior opposite angle.',
+      explanation: 'Exterior Angle = Sum of Interior Opp Angles => 110° = 50° + x => x = 110° - 50° = 60°.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '60°', isCorrect: true },
+        { optionLabel: 'B', optionText: '70°', isCorrect: false },
+        { optionLabel: 'C', optionText: '50°', isCorrect: false },
+        { optionLabel: 'D', optionText: '120°', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH6-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the hypotenuse of a right-angled triangle whose legs are 6 cm and 8 cm long.',
+      explanation: 'h² = 6² + 8² = 36 + 64 = 100 => h = √100 = 10 cm.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '10 cm', isCorrect: true },
+        { optionLabel: 'B', optionText: '14 cm', isCorrect: false },
+        { optionLabel: 'C', optionText: '12 cm', isCorrect: false },
+        { optionLabel: 'D', optionText: '16 cm', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH6-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'The angles of a triangle are in the ratio 1 : 2 : 3. Find the largest angle of the triangle.',
+      explanation: '1x + 2x + 3x = 180° => 6x = 180° => x = 30°. Largest angle = 3(30°) = 90° (Right-angled triangle).',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '90°', isCorrect: true },
+        { optionLabel: 'B', optionText: '60°', isCorrect: false },
+        { optionLabel: 'C', optionText: '30°', isCorrect: false },
+        { optionLabel: 'D', optionText: '120°', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH6-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'A 15 m long ladder reached a window 12 m high from the ground on placing it against a wall at a distance a. Find distance a.',
+      explanation: 'a² + 12² = 15² => a² + 144 = 225 => a² = 81 => a = 9 m.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '9 m', isCorrect: true },
+        { optionLabel: 'B', optionText: '3 m', isCorrect: false },
+        { optionLabel: 'C', optionText: '8 m', isCorrect: false },
+        { optionLabel: 'D', optionText: '10 m', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH6-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Olympiad] A tree is broken at a height of 5 m from the ground and its top touches the ground at a distance of 12 m from the base of the tree. Find the ORIGINAL height of the tree.',
+      explanation: 'Hypotenuse (broken part) = √(5² + 12²) = √(25 + 144) = √169 = 13 m. Original height = Standing part + Broken part = 5 + 13 = 18 m.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '18 m', isCorrect: true },
+        { optionLabel: 'B', optionText: '13 m', isCorrect: false },
+        { optionLabel: 'C', optionText: '17 m', isCorrect: false },
+        { optionLabel: 'D', optionText: '20 m', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH6-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] Which of the following set of side lengths CANNOT form a triangle?',
+      explanation: 'By Triangle Inequality, sum of 2 smaller sides must be > 3rd side. For (2 cm, 3 cm, 5 cm): 2 + 3 = 5 (NOT > 5), so it CANNOT form a triangle.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '2 cm, 3 cm, 5 cm', isCorrect: true },
+        { optionLabel: 'B', optionText: '3 cm, 4 cm, 5 cm', isCorrect: false },
+        { optionLabel: 'C', optionText: '6 cm, 8 cm, 10 cm', isCorrect: false },
+        { optionLabel: 'D', optionText: '5 cm, 5 cm, 5 cm', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH6-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'How many medians can a triangle have?',
+      explanation: 'A triangle has exactly 3 vertices and 3 opposite sides, so it has 3 medians.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '3', isCorrect: true },
+        { optionLabel: 'B', optionText: '1', isCorrect: false },
+        { optionLabel: 'C', optionText: '2', isCorrect: false },
+        { optionLabel: 'D', optionText: '6', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C7-MATH-CH6-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the perimeter of a rectangle whose length is 40 cm and a diagonal is 41 cm.',
+      explanation: 'Breadth b² = 41² - 40² = (41 - 40)(41 + 40) = 1 × 81 = 81 => b = 9 cm. Perimeter = 2(l + b) = 2(40 + 9) = 2(49) = 98 cm.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '98 cm', isCorrect: true },
+        { optionLabel: 'B', optionText: '49 cm', isCorrect: false },
+        { optionLabel: 'C', optionText: '82 cm', isCorrect: false },
+        { optionLabel: 'D', optionText: '90 cm', isCorrect: false },
+      ],
+    },
+  ],
+};

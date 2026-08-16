@@ -1,0 +1,57 @@
+export const ch3PronounsData = {
+  chapterNumber: 3,
+  title: 'Pronouns',
+  description: 'Personal Pronouns (Subjective & Objective), Possessive Pronouns, Demonstrative Pronouns, and Interrogative Pronouns.',
+  topics: [
+    { title: 'Personal & Possessive Pronouns', summary: 'Using I, me, he, him, she, her, mine, yours, ours, theirs.' },
+    { title: 'Demonstrative & Interrogative Pronouns', summary: 'Using this, that, these, those, who, what, which.' },
+  ],
+  questions: [
+    {
+      questionCode: 'C5-ENG-PRO-001',
+      questionText: 'Choose the correct pronoun: "My sister and _____ went to the library."',
+      questionType: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      marks: 1,
+      explanation: '"I" is used as the subject pronoun.',
+      options: [
+        { text: 'I', isCorrect: true },
+        { text: 'me', isCorrect: false },
+        { text: 'myself', isCorrect: false },
+        { text: 'mine', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C5-ENG-PRO-002',
+      questionText: 'Identify the possessive pronoun: "This bicycle is mine, but that blue helmet is yours."',
+      questionType: 'MULTIPLE_SELECT',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'ANALYZE',
+      competency: 'CONCEPTUAL',
+      marks: 2,
+      explanation: '"mine" and "yours" are possessive pronouns showing ownership without repeating nouns.',
+      options: [
+        { text: 'mine', isCorrect: true },
+        { text: 'yours', isCorrect: true },
+        { text: 'bicycle', isCorrect: false },
+        { text: 'blue', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C5-ENG-PRO-003',
+      questionText: 'In the sentence "This is the car I want to buy", "This" is a Demonstrative Pronoun.',
+      questionType: 'TRUE_FALSE',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      marks: 1,
+      explanation: '"This" points out a specific object as a demonstrative pronoun.',
+      options: [
+        { text: 'True', isCorrect: true },
+        { text: 'False', isCorrect: false },
+      ],
+    },
+  ],
+};

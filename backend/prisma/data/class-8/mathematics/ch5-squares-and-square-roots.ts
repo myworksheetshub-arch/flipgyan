@@ -1,0 +1,176 @@
+export const ch5SquaresClass8Data = {
+  classNumber: 8,
+  className: 'Class 8',
+  subjectName: 'Mathematics',
+  subjectCode: 'MATH8',
+  chapterNumber: 5,
+  chapterTitle: 'Squares and Square Roots',
+  summary: 'Properties of square numbers, Pythagorean triplets (2m, m²-1, m²+1), finding square roots by prime factorisation and long division method, estimating square roots.',
+  contentMarkdown: `# Chapter 5: Squares and Square Roots (Class 8 Mathematics NEP 2025)
+
+## 1. Square Numbers Properties
+- A square number never ends in $2, 3, 7, \\text{ or } 8$!
+- **Pythagorean Triplet**: Three numbers $(2m, m^2 - 1, m^2 + 1)$ such that $(2m)^2 + (m^2 - 1)^2 = (m^2 + 1)^2$.
+  - *Example*: For $m = 3 \\implies (6, 8, 10)$.
+
+## 2. Square Root Methods
+- **Prime Factorisation**: Group prime factors in pairs.
+- **Long Division Method**: Used for large numbers and decimals.
+`,
+  mindMapNodes: [
+    {
+      id: 'root',
+      label: 'Squares & Square Roots',
+      type: 'root',
+      color: '#3b82f6',
+      children: [
+        {
+          id: 'triplet',
+          label: 'Pythagorean Triplet',
+          type: 'category',
+          children: [
+            { id: 'tri-formula', label: '2m, m²-1, m²+1', type: 'concept' },
+          ],
+        },
+      ],
+    },
+  ],
+  questions: [
+    {
+      questionCode: 'C8-MATH-CH5-001',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'Which of the following digits can NEVER be at the unit’s place of a perfect square?',
+      explanation: 'A perfect square never ends in 2, 3, 7, or 8.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '7', isCorrect: true },
+        { optionLabel: 'B', optionText: '1', isCorrect: false },
+        { optionLabel: 'C', optionText: '5', isCorrect: false },
+        { optionLabel: 'D', optionText: '6', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH5-002',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'What is the smallest member of the Pythagorean triplet whose one member is 8?',
+      explanation: '2m = 8 => m = 4. Triplet members are 2m = 8, m²-1 = 15, m²+1 = 17. The smallest member is 8.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '8 (Triplet: 8, 15, 17)', isCorrect: true },
+        { optionLabel: 'B', optionText: '6', isCorrect: false },
+        { optionLabel: 'C', optionText: '10', isCorrect: false },
+        { optionLabel: 'D', optionText: '12', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH5-003',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'Find the square root of 529 using prime factorisation or long division.',
+      explanation: '23 × 23 = 529. Therefore √529 = 23.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '23', isCorrect: true },
+        { optionLabel: 'B', optionText: '27', isCorrect: false },
+        { optionLabel: 'C', optionText: '33', isCorrect: false },
+        { optionLabel: 'D', optionText: '19', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH5-004',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROBLEM_SOLVING',
+      questionText: 'What is the smallest whole number by which 252 must be multiplied so as to get a perfect square?',
+      explanation: '252 = 2 × 2 × 3 × 3 × 7. The factor 7 is unpaired, so multiplying by 7 makes it a perfect square (1764 = 42²).',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '7', isCorrect: true },
+        { optionLabel: 'B', optionText: '3', isCorrect: false },
+        { optionLabel: 'C', optionText: '2', isCorrect: false },
+        { optionLabel: 'D', optionText: '5', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH5-005',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'PROBLEM_SOLVING',
+      questionText: '🏆 [CBSE Olympiad] Find the least number which must be subtracted from 5607 so as to get a perfect square.',
+      explanation: 'Using long division for 5607: 74 × 74 = 5476. Remainder = 5607 - 5476 = 131. Subtracted number = 131.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '131', isCorrect: true },
+        { optionLabel: 'B', optionText: '121', isCorrect: false },
+        { optionLabel: 'C', optionText: '141', isCorrect: false },
+        { optionLabel: 'D', optionText: '31', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH5-006',
+      type: 'MCQ',
+      difficulty: 'HARD',
+      bloomLevel: 'ANALYZE',
+      competency: 'CRITICAL_THINKING',
+      questionText: '🏆 [HOTS] Find the square root of decimal number 17.64.',
+      explanation: '17.64 = 1764 / 100. √1764 = 42. √(17.64) = 42 / 10 = 4.2.',
+      marks: 3,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '4.2', isCorrect: true },
+        { optionLabel: 'B', optionText: '4.8', isCorrect: false },
+        { optionLabel: 'C', optionText: '3.8', isCorrect: false },
+        { optionLabel: 'D', optionText: '5.2', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH5-007',
+      type: 'MCQ',
+      difficulty: 'EASY',
+      bloomLevel: 'REMEMBER',
+      competency: 'CONCEPTUAL',
+      questionText: 'How many non-square natural numbers lie between 12² (144) and 13² (169)?',
+      explanation: 'Number of non-square numbers between n² and (n+1)² is 2n = 2 × 12 = 24.',
+      marks: 1,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '24', isCorrect: true },
+        { optionLabel: 'B', optionText: '25', isCorrect: false },
+        { optionLabel: 'C', optionText: '26', isCorrect: false },
+        { optionLabel: 'D', optionText: '12', isCorrect: false },
+      ],
+    },
+    {
+      questionCode: 'C8-MATH-CH5-008',
+      type: 'MCQ',
+      difficulty: 'MEDIUM',
+      bloomLevel: 'APPLY',
+      competency: 'PROCEDURAL',
+      questionText: 'What is the value of √(0.09) + √(0.16)?',
+      explanation: '√(0.09) = 0.3, √(0.16) = 0.4. Sum = 0.3 + 0.4 = 0.7.',
+      marks: 2,
+      negativeMarks: 0,
+      options: [
+        { optionLabel: 'A', optionText: '0.7', isCorrect: true },
+        { optionLabel: 'B', optionText: '0.25', isCorrect: false },
+        { optionLabel: 'C', optionText: '0.07', isCorrect: false },
+        { optionLabel: 'D', optionText: '0.5', isCorrect: false },
+      ],
+    },
+  ],
+};

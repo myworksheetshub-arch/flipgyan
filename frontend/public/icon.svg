@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="fgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="fgAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="50%" stop-color="#14b8a6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Rounded Container -->
+  <rect x="16" y="16" width="480" height="480" rx="120" fill="url(#fgGradient)" />
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="none" stroke="url(#fgAccent)" stroke-width="10" stroke-opacity="0.4" />
+
+  <!-- Graduation Cap Badge Background Icon -->
+  <path d="M256 100 L380 155 L256 210 L132 155 Z" fill="url(#fgAccent)" opacity="0.25" />
+
+  <!-- Bold FG Monogram -->
+  <g fill="none" stroke="url(#fgAccent)" stroke-width="44" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+    <!-- F -->
+    <path d="M144 160 H240 M144 160 V352 M144 256 H224" />
+    <!-- G -->
+    <path d="M368 200 C344 150 288 150 264 200 V312 C264 360 328 368 368 312 V264 H312" />
+  </g>
+
+  <!-- Top Right Sparkle Badge -->
+  <circle cx="392" cy="128" r="20" fill="#10b981" />
+  <path d="M392 116 L395 125 L404 128 L395 131 L392 140 L389 131 L380 128 L389 125 Z" fill="#ffffff" />
+</svg>
