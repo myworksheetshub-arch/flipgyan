@@ -5,12 +5,23 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://flipgyan.com'),
   title: "FlipGyan — Interactive Educational Learning Platform",
   description: "Learn Smarter. Practice Better. Achieve More. Interactive study notes, worksheets, quizzes and question papers for K-12 & CBSE students.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
     apple: "/favicon.svg",
+  },
+  alternates: {
+    canonical: 'https://flipgyan.com',
+  },
+  openGraph: {
+    title: "FlipGyan — Interactive Educational Learning Platform",
+    description: "Learn Smarter. Practice Better. Achieve More. Interactive study notes, worksheets, quizzes and question papers for K-12 & CBSE students.",
+    url: "https://flipgyan.com",
+    siteName: "FlipGyan",
+    type: "website",
   },
 };
 
