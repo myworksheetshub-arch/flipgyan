@@ -9,8 +9,12 @@ async function bootstrap() {
 
   // Enable CORS for frontend
   app.enableCors({
-    origin: '*',
+    origin: (origin, callback) => {
+      // allow all origins (flipgyan.com, localhost, etc.)
+      callback(null, true);
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Accept,Authorization,X-Requested-With',
     credentials: true,
   });
 

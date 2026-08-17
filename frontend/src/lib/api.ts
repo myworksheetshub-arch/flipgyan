@@ -19,7 +19,15 @@ class ApiClient {
         return customUrl.trim().replace(/\/+$/, '');
       }
     }
-    return (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').replace(/\/+$/, '');
+    const envUrl = (process.env.NEXT_PUBLIC_API_URL || '').trim().replace(/\/+$/, '');
+    // If envUrl is the old/dead tunnel or empty, fallback to the active live tunnel
+    if (!envUrl || envUrl.includes('emma-discuss-instances-spoke')) {
+      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+        return 'http://localhost:4000';
+      }
+      return 'https://auckland-nirvana-singles-statutory.trycloudflare.com';
+    }
+    return envUrl;
   }
 
   setBaseUrl(url: string) {
