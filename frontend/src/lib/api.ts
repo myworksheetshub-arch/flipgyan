@@ -19,16 +19,7 @@ class ApiClient {
         return customUrl.trim().replace(/\/+$/, '');
       }
     }
-    const envUrl = (process.env.NEXT_PUBLIC_API_URL || '').trim().replace(/\/+$/, '');
-    // If envUrl is the old/dead tunnel or empty, fallback to the active live tunnel
-    const deadTunnels = ['emma-discuss-instances-spoke', 'auckland-nirvana-singles-statutory'];
-    if (!envUrl || deadTunnels.some(t => envUrl.includes(t))) {
-      if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-        return 'http://localhost:4000';
-      }
-      return 'https://sheriff-spectacular-few-cage.trycloudflare.com';
-    }
-    return envUrl;
+    return (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').trim().replace(/\/+$/, '');
   }
 
   setBaseUrl(url: string) {
