@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { api } from '@/lib/api';
 import { Question, ClassGrade, Subject, Chapter } from '@/types';
@@ -16,6 +16,12 @@ import {
   HelpCircle,
   Sparkles,
   Award,
+  Upload,
+  Download,
+  Clock,
+  XCircle,
+  CheckCircle2,
+  FileSpreadsheet,
 } from 'lucide-react';
 import { getDifficultyColor, getBloomColor } from '@/lib/utils';
 
@@ -31,12 +37,21 @@ export default function AdminQuestionsPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('ALL');
   const [selectedBloom, setSelectedBloom] = useState<string>('ALL');
   const [selectedType, setSelectedType] = useState<string>('ALL');
+  const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
   const [search, setSearch] = useState<string>('');
   const [loading, setLoading] = useState(true);
 
-  // Modal State
+  // Modal State (Single Question)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingQId, setEditingQId] = useState<string | null>(null);
+
+  // Modal State (JSON Bulk Upload)
+  const [showJsonModal, setShowJsonModal] = useState(false);
+  const [jsonText, setJsonText] = useState('');
+  const [jsonParsedQuestions, setJsonParsedQuestions] = useState<any[]>([]);
+  const [jsonParseError, setJsonParseError] = useState('');
+  const [jsonImporting, setJsonImporting] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Form State
   const [questionText, setQuestionText] = useState('');
@@ -79,6 +94,7 @@ export default function AdminQuestionsPage() {
       if (selectedDifficulty !== 'ALL') params.difficulty = selectedDifficulty;
       if (selectedBloom !== 'ALL') params.bloomLevel = selectedBloom;
       if (selectedType !== 'ALL') params.questionType = selectedType;
+      if (selectedStatus !== 'ALL') params.status = selectedStatus;
       if (search.trim()) params.search = search.trim();
 
       const qRes = await api.getQuestions(params);
@@ -110,14 +126,14 @@ export default function AdminQuestionsPage() {
   // Reset to page 1 on filter change
   useEffect(() => {
     setPage(1);
-  }, [selectedClassId, selectedSubjectId, selectedDifficulty, selectedBloom, selectedType, search, pageSize]);
+  }, [selectedClassId, selectedSubjectId, selectedDifficulty, selectedBloom, selectedType, selectedStatus, search, pageSize]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchQuestions();
     }, 200);
     return () => clearTimeout(timer);
-  }, [selectedClassId, selectedSubjectId, selectedDifficulty, selectedBloom, selectedType, search, page, pageSize]);
+  }, [selectedClassId, selectedSubjectId, selectedDifficulty, selectedBloom, selectedType, selectedStatus, search, page, pageSize]);
 
   const filteredSubjects = selectedClassId === 'ALL'
     ? subjects
@@ -138,8 +154,6 @@ export default function AdminQuestionsPage() {
     }
     loadChapters();
   }, [subjectId]);
-
-  const filteredQuestions = questions;
 
   const openCreateModal = () => {
     setEditingQId(null);
@@ -183,7 +197,7 @@ export default function AdminQuestionsPage() {
       if (fullQ.options && fullQ.options.length > 0) {
         setOptionsList(
           fullQ.options.map((o) => ({
-            text: o.text,
+            text: o.text || (o as any).optionText || '',
             isCorrect: !!o.isCorrect,
             explanation: o.explanation,
           }))
@@ -217,6 +231,7 @@ export default function AdminQuestionsPage() {
       negativeMarks: Number(negativeMarks),
       explanation,
       chapterId,
+      status: 'APPROVED',
       options: optionsList.map((o, idx) => ({
         text: o.text,
         isCorrect: !!o.isCorrect,
@@ -254,6 +269,106 @@ export default function AdminQuestionsPage() {
     }
   };
 
+  const handleApprove = async (id: string) => {
+    try {
+      await api.approveQuestion(id);
+      setQuestions((prev) => prev.map((q) => (q.id === id ? { ...q, status: 'APPROVED' as any } : q)));
+      alert('Question approved and published to the master question bank!');
+    } catch (err: any) {
+      alert('Failed to approve question: ' + (err.message || 'Server error'));
+    }
+  };
+
+  const handleReject = async (id: string) => {
+    const reason = prompt('Enter rejection reason or feedback for the teacher:', 'Needs revisions to question text or answer options.');
+    if (reason === null) return;
+
+    try {
+      await api.rejectQuestion(id, reason);
+      setQuestions((prev) => prev.map((q) => (q.id === id ? { ...q, status: 'REJECTED' as any } : q)));
+      alert('Question status updated to Rejected.');
+    } catch (err: any) {
+      alert('Failed to reject question: ' + (err.message || 'Server error'));
+    }
+  };
+
+  // JSON Import
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result as string;
+      setJsonText(content);
+      parseJsonContent(content);
+    };
+    reader.readAsText(file);
+  };
+
+  const parseJsonContent = (text: string) => {
+    try {
+      setJsonParseError('');
+      if (!text.trim()) {
+        setJsonParsedQuestions([]);
+        return;
+      }
+      const parsed = JSON.parse(text);
+      const list = Array.isArray(parsed) ? parsed : parsed.questions;
+      if (!Array.isArray(list)) {
+        throw new Error('JSON must be an array of question objects.');
+      }
+      setJsonParsedQuestions(list);
+    } catch (err: any) {
+      setJsonParseError(err.message || 'Invalid JSON format');
+      setJsonParsedQuestions([]);
+    }
+  };
+
+  const handleJsonBulkSubmit = async () => {
+    if (jsonParsedQuestions.length === 0) return;
+    try {
+      setJsonImporting(true);
+      await api.bulkCreateQuestions(jsonParsedQuestions);
+      setShowJsonModal(false);
+      setJsonText('');
+      setJsonParsedQuestions([]);
+      fetchQuestions();
+      alert(`Successfully imported ${jsonParsedQuestions.length} questions!`);
+    } catch (err: any) {
+      setJsonParseError(err.message || 'Failed to bulk import questions.');
+    } finally {
+      setJsonImporting(false);
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'APPROVED':
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <CheckCircle className="w-3 h-3 text-emerald-600" />
+            Approved
+          </span>
+        );
+      case 'REJECTED':
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-50 text-rose-700 border border-rose-200">
+            <XCircle className="w-3 h-3 text-rose-600" />
+            Rejected
+          </span>
+        );
+      case 'REVIEW':
+      default:
+        return (
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-50 text-amber-700 border border-amber-200 animate-pulse">
+            <Clock className="w-3 h-3 text-amber-600" />
+            Pending Review
+          </span>
+        );
+    }
+  };
+
   return (
     <DashboardLayout role="ADMIN">
       <div className="space-y-6 pb-12">
@@ -262,24 +377,57 @@ export default function AdminQuestionsPage() {
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 font-display flex items-center gap-2.5">
               <HelpCircle className="w-7 h-7 text-indigo-600" />
-              Master Question Bank & Taxonomy Editor
+              Master Question Bank & Review Studio
             </h1>
             <div className="flex flex-wrap items-center gap-2 mt-1">
               <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-extrabold border border-indigo-200">
-                {totalCount} Total Questions in Bank
+                {totalCount} Total Questions
               </span>
               <p className="text-xs text-slate-500">
-                Authored CBSE questions aligned with Bloom's Taxonomy, NEP 2020 competencies, and PARAKH rubrics.
+                Review and approve teacher submissions, manage taxonomy, and bulk import CBSE questions.
               </p>
             </div>
           </div>
-          <button
-            onClick={openCreateModal}
-            className="flex items-center justify-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition-all shrink-0"
-          >
-            <Plus className="w-4 h-4" />
-            Add New Question
-          </button>
+
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              onClick={() => setShowJsonModal(true)}
+              className="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs rounded-xl shadow-xs transition"
+            >
+              <Upload className="w-4 h-4 text-slate-600" />
+              <span>Import JSON</span>
+            </button>
+
+            <button
+              onClick={openCreateModal}
+              className="flex items-center justify-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add Question</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Status Filter Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1">
+          {[
+            { label: 'All Questions', value: 'ALL' },
+            { label: 'Pending Review', value: 'REVIEW' },
+            { label: 'Approved', value: 'APPROVED' },
+            { label: 'Rejected', value: 'REJECTED' },
+          ].map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setSelectedStatus(tab.value)}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                selectedStatus === tab.value
+                  ? 'bg-slate-900 text-white shadow-xs'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
         {/* Filters */}
@@ -301,7 +449,7 @@ export default function AdminQuestionsPage() {
               <select
                 value={selectedClassId}
                 onChange={(e) => setSelectedClassId(e.target.value)}
-                className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500"
+                className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700"
               >
                 <option value="ALL">All Classes</option>
                 {classes.map((c) => (
@@ -317,7 +465,7 @@ export default function AdminQuestionsPage() {
               <select
                 value={selectedSubjectId}
                 onChange={(e) => setSelectedSubjectId(e.target.value)}
-                className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:ring-2 focus:ring-indigo-500"
+                className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700"
               >
                 <option value="ALL">All Subjects</option>
                 {filteredSubjects.map((s) => (
@@ -327,54 +475,23 @@ export default function AdminQuestionsPage() {
                 ))}
               </select>
             </div>
-          </div>
 
-          <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100">
-            <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-semibold text-slate-400">Difficulty:</span>
-              <select
-                value={selectedDifficulty}
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs"
-              >
-                <option value="ALL">All Difficulties</option>
-                <option value="EASY">Easy</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="HARD">Hard</option>
-              </select>
-            </div>
-
-            <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-semibold text-slate-400">Bloom Level:</span>
-              <select
-                value={selectedBloom}
-                onChange={(e) => setSelectedBloom(e.target.value)}
-                className="px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs"
-              >
-                <option value="ALL">All Bloom Levels</option>
-                <option value="REMEMBER">Remember</option>
-                <option value="UNDERSTAND">Understand</option>
-                <option value="APPLY">Apply</option>
-                <option value="ANALYZE">Analyze</option>
-                <option value="EVALUATE">Evaluate</option>
-                <option value="CREATE">Create</option>
-              </select>
-            </div>
-
-            <div className="flex items-center gap-1.5">
-              <span className="text-[11px] font-semibold text-slate-400">Type:</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-slate-500">Type:</span>
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-2.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs"
+                className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700"
               >
-                <option value="ALL">All Question Types</option>
+                <option value="ALL">All Types</option>
                 <option value="MCQ">MCQ</option>
                 <option value="TRUE_FALSE">True / False</option>
-                <option value="FILL_BLANK">Fill in Blank</option>
+                <option value="ASSERTION_REASON">Assertion & Reason</option>
+                <option value="FILL_IN_BLANK">Fill in Blank</option>
                 <option value="SHORT_ANSWER">Short Answer</option>
-                <option value="CASE_STUDY">Case Study</option>
-                <option value="DIAGRAM">Diagram / Map</option>
+                <option value="LONG_ANSWER">Long Answer</option>
+                <option value="CASE_BASED">Case Study</option>
+                <option value="DIAGRAM_BASED">Diagram Based</option>
               </select>
             </div>
           </div>
@@ -386,22 +503,23 @@ export default function AdminQuestionsPage() {
             <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full mx-auto mb-3" />
             <p className="text-xs text-slate-500">Loading master question bank...</p>
           </div>
-        ) : filteredQuestions.length === 0 ? (
+        ) : questions.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-3xl border border-slate-200 p-8">
             <HelpCircle className="w-12 h-12 text-slate-300 mx-auto mb-3" />
             <h3 className="text-sm font-bold text-slate-700">No Questions Found</h3>
             <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1">
-              Adjust your search/filter parameters or click "Add New Question".
+              Adjust your search/filter parameters or click "Add Question".
             </p>
           </div>
         ) : (
           <>
             <div className="bg-white rounded-3xl border border-slate-200 shadow-xs divide-y divide-slate-100 overflow-hidden">
-              {filteredQuestions.map((q, idx) => (
+              {questions.map((q, idx) => (
                 <div key={q.id} className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50 transition-colors">
                   <div className="space-y-2 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="font-extrabold text-xs text-slate-400">#{(page - 1) * pageSize + idx + 1}</span>
+                      {getStatusBadge(q.status)}
                       <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${getDifficultyColor(q.difficulty)}`}>
                         {q.difficulty}
                       </span>
@@ -412,20 +530,61 @@ export default function AdminQuestionsPage() {
                         {q.questionType} • {q.marks || 1} Marks
                       </span>
                       <span className="text-[10px] text-slate-400 font-medium">
-                        {q.chapter?.subject?.name} (Class {q.chapter?.subject?.classGrade?.number}) • Ch {q.chapter?.chapterNumber}
+                        {q.chapter?.subject?.name} (Class {q.chapter?.subject?.classGrade?.number}) • Ch {q.chapter?.chapterNumber}: {q.chapter?.title || q.chapter?.name}
                       </span>
                     </div>
 
-                    <p className="text-xs font-bold text-slate-900 leading-relaxed">{q.questionText}</p>
+                    <p className="text-xs font-bold text-slate-900 leading-relaxed whitespace-pre-wrap">{q.questionText}</p>
+
+                    {q.options && q.options.length > 0 && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
+                        {q.options.map((opt) => (
+                          <div
+                            key={opt.id}
+                            className={`p-2 rounded-lg border text-[11px] flex items-center justify-between ${
+                              opt.isCorrect
+                                ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold'
+                                : 'bg-slate-50 border-slate-200 text-slate-700'
+                            }`}
+                          >
+                            <span>
+                              <strong>{opt.optionLabel || ''}.</strong> {opt.text || opt.optionText}
+                            </span>
+                            {opt.isCorrect && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
+                    {/* Review Actions for Pending or Rejected Items */}
+                    {q.status === 'REVIEW' && (
+                      <>
+                        <button
+                          onClick={() => handleApprove(q.id)}
+                          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1"
+                        >
+                          <CheckCircle className="w-3.5 h-3.5" />
+                          Approve
+                        </button>
+
+                        <button
+                          onClick={() => handleReject(q.id)}
+                          className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-lg transition-colors flex items-center gap-1"
+                        >
+                          <XCircle className="w-3.5 h-3.5" />
+                          Reject
+                        </button>
+                      </>
+                    )}
+
                     <button
                       onClick={() => openEditModal(q)}
                       className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"
                     >
                       <Edit className="w-3.5 h-3.5" />
-                      Edit Question
+                      Edit
                     </button>
 
                     {deletingId === q.id ? (
@@ -549,7 +708,7 @@ export default function AdminQuestionsPage() {
           </>
         )}
 
-        {/* MODAL */}
+        {/* SINGLE QUESTION MODAL */}
         {isModalOpen && (
           <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
             <div className="bg-white rounded-3xl max-w-3xl w-full border border-slate-200 shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col">
@@ -560,44 +719,32 @@ export default function AdminQuestionsPage() {
                   </div>
                   <div>
                     <h2 className="text-lg font-extrabold font-display">
-                      {editingQId ? 'Edit Question & Options' : 'Add New Question'}
+                      {editingQId ? 'Edit CBSE Question' : 'Author Master Question'}
                     </h2>
-                    <p className="text-xs text-slate-400">Configure question stem, options, bloom taxonomy & chapter target.</p>
+                    <p className="text-xs text-slate-400">Published directly to the Master Question Bank</p>
                   </div>
                 </div>
-                <button onClick={() => setIsModalOpen(false)} className="p-2 text-slate-400 hover:text-white rounded-xl">
+                <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-white p-1">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {errorMsg && (
-                <div className="mx-6 mt-4 p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold rounded-xl flex items-center gap-2 shrink-0">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  {errorMsg}
-                </div>
-              )}
+              <div className="p-6 overflow-y-auto space-y-4 flex-1">
+                {errorMsg && (
+                  <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
 
-              <div className="p-6 overflow-y-auto space-y-5 flex-1">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Question Text *</label>
-                  <textarea
-                    rows={3}
-                    value={questionText}
-                    onChange={(e) => setQuestionText(e.target.value)}
-                    placeholder="Enter full question statement..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Subject *</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Subject</label>
                     <select
                       value={subjectId}
                       onChange={(e) => setSubjectId(e.target.value)}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold"
                     >
-                      <option value="">Select Subject</option>
                       {subjects.map((s) => (
                         <option key={s.id} value={s.id}>
                           {s.name} ({s.classGrade?.number ? `Class ${s.classGrade.number}` : s.code})
@@ -607,43 +754,56 @@ export default function AdminQuestionsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Chapter *</label>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">Chapter</label>
                     <select
                       value={chapterId}
                       onChange={(e) => setChapterId(e.target.value)}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold"
                     >
-                      <option value="">Select Chapter</option>
                       {chapters.map((ch) => (
                         <option key={ch.id} value={ch.id}>
-                          Ch {ch.chapterNumber}: {ch.title}
+                          Ch {ch.chapterNumber || (ch as any).chapterNo}: {ch.title || ch.name}
                         </option>
                       ))}
                     </select>
                   </div>
+                </div>
 
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Question Text</label>
+                  <textarea
+                    rows={3}
+                    value={questionText}
+                    onChange={(e) => setQuestionText(e.target.value)}
+                    placeholder="Type question statement..."
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Question Format</label>
+                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Type</label>
                     <select
                       value={questionType}
                       onChange={(e) => setQuestionType(e.target.value)}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs"
                     >
-                      <option value="MCQ">MCQ (Multiple Choice)</option>
+                      <option value="MCQ">MCQ</option>
                       <option value="TRUE_FALSE">True / False</option>
-                      <option value="FILL_BLANK">Fill in the Blank</option>
-                      <option value="SHORT_ANSWER">Short Answer / Subjective</option>
-                      <option value="CASE_STUDY">Competency Case Study</option>
-                      <option value="DIAGRAM">Diagram / Skill Analysis</option>
+                      <option value="FILL_IN_BLANK">Fill in Blank</option>
+                      <option value="SHORT_ANSWER">Short Answer</option>
+                      <option value="LONG_ANSWER">Long Answer</option>
+                      <option value="CASE_BASED">Case Study</option>
+                      <option value="ASSERTION_REASON">Assertion & Reason</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Difficulty Level</label>
+                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Difficulty</label>
                     <select
                       value={difficulty}
                       onChange={(e) => setDifficulty(e.target.value)}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs"
                     >
                       <option value="EASY">Easy</option>
                       <option value="MEDIUM">Medium</option>
@@ -652,11 +812,11 @@ export default function AdminQuestionsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Bloom's Taxonomy Level</label>
+                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Bloom's</label>
                     <select
                       value={bloomLevel}
                       onChange={(e) => setBloomLevel(e.target.value)}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs"
                     >
                       <option value="REMEMBER">Remember</option>
                       <option value="UNDERSTAND">Understand</option>
@@ -668,87 +828,63 @@ export default function AdminQuestionsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">Marks</label>
+                    <label className="block text-[11px] font-bold text-slate-600 mb-1">Marks</label>
                     <input
                       type="number"
+                      min={1}
+                      max={10}
                       value={marks}
                       onChange={(e) => setMarks(Number(e.target.value))}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-2.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs"
                     />
                   </div>
                 </div>
 
-                {/* Options Builder */}
-                <div className="pt-4 border-t border-slate-200 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <label className="block text-xs font-bold text-slate-700">Answer Options</label>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setOptionsList([
-                          ...optionsList,
-                          { text: `Option ${String.fromCharCode(65 + optionsList.length)}`, isCorrect: false },
-                        ])
-                      }
-                      className="px-2.5 py-1 bg-indigo-50 text-indigo-700 text-[11px] font-bold rounded-lg hover:bg-indigo-100"
-                    >
-                      + Add Option
-                    </button>
-                  </div>
-
-                  {optionsList.map((opt, oIdx) => (
-                    <div key={oIdx} className="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                      <input
-                        type="radio"
-                        name="correct-opt-group"
-                        checked={opt.isCorrect}
-                        onChange={() => {
-                          const updated = [...optionsList];
-                          updated.forEach((o, i) => {
-                            o.isCorrect = i === oIdx;
-                          });
-                          setOptionsList(updated);
-                        }}
-                        className="w-4 h-4 text-indigo-600"
-                      />
-                      <span className="text-xs font-bold text-slate-500 w-5">{String.fromCharCode(65 + oIdx)}.</span>
+                {/* Options List */}
+                <div className="space-y-2 pt-2">
+                  <label className="block text-xs font-bold text-slate-700">Options</label>
+                  {optionsList.map((opt, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-lg bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0">
+                        {String.fromCharCode(65 + idx)}
+                      </span>
                       <input
                         type="text"
                         value={opt.text}
                         onChange={(e) => {
-                          const updated = [...optionsList];
-                          updated[oIdx].text = e.target.value;
-                          setOptionsList(updated);
+                          const val = e.target.value;
+                          setOptionsList((prev) => prev.map((o, i) => (i === idx ? { ...o, text: val } : o)));
                         }}
-                        placeholder={`Option ${String.fromCharCode(65 + oIdx)} Text`}
-                        className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs"
+                        placeholder={`Option ${String.fromCharCode(65 + idx)}`}
+                        className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs"
                       />
-                      {optionsList.length > 2 && (
-                        <button
-                          type="button"
-                          onClick={() => setOptionsList(optionsList.filter((_, i) => i !== oIdx))}
-                          className="text-slate-400 hover:text-rose-600 p-1"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOptionsList((prev) => prev.map((o, i) => ({ ...o, isCorrect: i === idx })));
+                        }}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                          opt.isCorrect ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                        }`}
+                      >
+                        {opt.isCorrect ? 'Correct ✓' : 'Mark Correct'}
+                      </button>
                     </div>
                   ))}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Step-by-Step Solution Explanation</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Solution Explanation</label>
                   <textarea
                     rows={3}
                     value={explanation}
                     onChange={(e) => setExplanation(e.target.value)}
-                    placeholder="Provide full marking scheme and step-by-step explanation..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Step-by-step marking scheme..."
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"
                   />
                 </div>
               </div>
 
-              {/* Footer */}
               <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
                 <button
                   type="button"
@@ -763,7 +899,114 @@ export default function AdminQuestionsPage() {
                   disabled={saving}
                   className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-2 disabled:opacity-50"
                 >
-                  {saving ? 'Saving...' : editingQId ? 'Update Question' : 'Create Question'}
+                  {saving ? 'Saving...' : editingQId ? 'Update Question' : 'Publish Question'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* JSON BULK UPLOAD MODAL */}
+        {showJsonModal && (
+          <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+            <div className="bg-white rounded-3xl max-w-4xl w-full border border-slate-200 shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col">
+              <div className="p-6 bg-slate-900 text-white flex items-center justify-between shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-600/30 border border-indigo-400/40 flex items-center justify-center text-indigo-400 font-bold">
+                    <FileSpreadsheet className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-extrabold font-display">Bulk Import Questions from JSON (Admin)</h2>
+                    <p className="text-xs text-slate-400">Directly publish multiple questions into the master question bank</p>
+                  </div>
+                </div>
+                <button onClick={() => setShowJsonModal(false)} className="text-slate-400 hover:text-white p-1">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-6 overflow-y-auto space-y-4 flex-1">
+                {jsonParseError && (
+                  <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{jsonParseError}</span>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                  <div>
+                    <p className="text-xs font-bold text-slate-800">Select a .json file or paste raw JSON</p>
+                    <p className="text-[11px] text-slate-500">Auto-assigns approved status for master questions.</p>
+                  </div>
+
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileUpload}
+                    accept=".json,application/json"
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="px-3.5 py-2 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl flex items-center gap-1.5 transition"
+                  >
+                    <Upload className="w-4 h-4 text-slate-500" />
+                    Browse JSON File
+                  </button>
+                </div>
+
+                <textarea
+                  rows={8}
+                  value={jsonText}
+                  onChange={(e) => {
+                    setJsonText(e.target.value);
+                    parseJsonContent(e.target.value);
+                  }}
+                  placeholder={`[\n  {\n    "chapterName": "Integers",\n    "questionText": "Find the value of -5 + 12",\n    "questionType": "MCQ",\n    "marks": 1,\n    "options": [\n      { "text": "7", "isCorrect": true },\n      { "text": "-7", "isCorrect": false }\n    ]\n  }\n]`}
+                  className="w-full p-3.5 bg-slate-950 text-emerald-400 font-mono text-xs rounded-2xl border border-slate-800 focus:ring-2 focus:ring-indigo-500 outline-none"
+                />
+
+                {jsonParsedQuestions.length > 0 && (
+                  <div className="space-y-2">
+                    <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                      {jsonParsedQuestions.length} Questions Ready for Direct Publishing
+                    </h3>
+                    <div className="max-h-48 overflow-y-auto divide-y divide-slate-100 border border-slate-200 rounded-2xl bg-white">
+                      {jsonParsedQuestions.map((q, idx) => (
+                        <div key={idx} className="p-3 text-xs space-y-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-slate-400">#{idx + 1}</span>
+                            <span className="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-bold text-[10px]">
+                              {q.questionType || 'MCQ'}
+                            </span>
+                            <span className="text-slate-500 text-[11px]">
+                              Ch: {q.chapterName || q.chapterTitle || q.chapterId || 'Auto'}
+                            </span>
+                          </div>
+                          <p className="font-semibold text-slate-900 truncate">{q.questionText}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setShowJsonModal(false)}
+                  className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs rounded-xl"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleJsonBulkSubmit}
+                  disabled={jsonImporting || jsonParsedQuestions.length === 0}
+                  className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-2 disabled:opacity-50"
+                >
+                  {jsonImporting ? 'Importing...' : `Directly Publish ${jsonParsedQuestions.length} Questions`}
                 </button>
               </div>
             </div>

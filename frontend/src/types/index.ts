@@ -49,7 +49,9 @@ export interface Subject {
 export interface Chapter {
   id: string;
   title: string;
+  name?: string;
   chapterNumber: number;
+  chapterNo?: number;
   description?: string;
   subjectId: string;
   subject?: Subject;
@@ -102,6 +104,8 @@ export interface QuestionOption {
   id: string;
   questionId: string;
   text: string;
+  optionLabel?: string;
+  optionText?: string;
   isCorrect?: boolean;
   explanation?: string;
   sequence: number;
@@ -110,12 +114,13 @@ export interface QuestionOption {
 export interface Question {
   id: string;
   questionText: string;
-  questionType: 'MCQ' | 'MULTIPLE_SELECT' | 'TRUE_FALSE' | 'FILL_BLANK' | 'MATCH' | 'SHORT_ANSWER';
-  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
-  bloomLevel: 'REMEMBER' | 'UNDERSTAND' | 'APPLY' | 'ANALYZE' | 'EVALUATE' | 'CREATE';
-  competency: 'CONCEPTUAL' | 'PROCEDURAL' | 'LOGICAL' | 'CRITICAL' | 'PROBLEM_SOLVING' | 'COMMUNICATION';
+  questionType: 'MCQ' | 'MULTIPLE_SELECT' | 'TRUE_FALSE' | 'FILL_BLANK' | 'FILL_IN_BLANK' | 'MATCH' | 'SHORT_ANSWER' | 'LONG_ANSWER' | 'ASSERTION_REASON' | 'CASE_BASED' | 'DIAGRAM_BASED' | string;
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD' | string;
+  bloomLevel: 'REMEMBER' | 'UNDERSTAND' | 'APPLY' | 'ANALYZE' | 'EVALUATE' | 'CREATE' | string;
+  competency: 'CONCEPTUAL' | 'PROCEDURAL' | 'LOGICAL' | 'CRITICAL' | 'PROBLEM_SOLVING' | 'COMMUNICATION' | string;
   marks: number;
   negativeMarks: number;
+  status?: 'DRAFT' | 'REVIEW' | 'APPROVED' | 'REJECTED' | 'ARCHIVED' | string;
   explanation?: string;
   hint?: string;
   answerText?: string;

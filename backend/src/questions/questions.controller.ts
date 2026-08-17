@@ -86,21 +86,24 @@ export class QuestionsController {
   @ApiOperation({ summary: 'Teacher/Admin: Create a new question with options, rubrics, and media' })
   async create(
     @CurrentUser('id') userId: string,
+    @CurrentUser('role') userRole: string,
     @Body() body: any,
   ) {
-    return this.questionsService.create({ ...body, createdById: userId });
+    return this.questionsService.create({ ...body, createdById: userId }, userRole);
   }
 
   @Post('bulk')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('ADMIN', 'TEACHER', 'CONTENT_EDITOR')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Teacher/Admin: Bulk create questions' })
+  @ApiOperation({ summary: 'Teacher/Admin: Bulk create questions from JSON' })
   async bulkCreate(
     @CurrentUser('id') userId: string,
-    @Body() body: { questions: any[] },
+    @CurrentUser('role') userRole: string,
+    @Body() body: { questions: any[] } | any[],
   ) {
-    return this.questionsService.bulkCreate(body.questions, userId);
+    const questionsArray = Array.isArray(body) ? body : body.questions;
+    return this.questionsService.bulkCreate(questionsArray, userId, userRole);
   }
 
   @Post('import')
@@ -110,9 +113,10 @@ export class QuestionsController {
   @ApiOperation({ summary: 'Teacher/Admin: Import questions into chapter' })
   async importQuestions(
     @CurrentUser('id') userId: string,
+    @CurrentUser('role') userRole: string,
     @Body() body: { chapterId: string; questions: any[] },
   ) {
-    return this.questionsService.importQuestions(body, userId);
+    return this.questionsService.importQuestions(body, userId, userRole);
   }
 
   @Post(':id/review')
@@ -130,14 +134,27 @@ export class QuestionsController {
 
   @Post(':id/approve')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN', 'TEACHER')
+  @Roles('ADMIN')
   @ApiBearerAuth()
-  @ApiOperation({ summary: 'Approve question for paper generation' })
+  @ApiOperation({ summary: 'Admin: Approve question for question bank' })
   async approveQuestion(
     @Param('id') id: string,
     @CurrentUser('id') userId: string,
   ) {
     return this.questionsService.approveQuestion(id, userId);
+  }
+
+  @Post(':id/reject')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('ADMIN')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Admin: Reject question with feedback' })
+  async rejectQuestion(
+    @Param('id') id: string,
+    @CurrentUser('id') userId: string,
+    @Body() body: { reason?: string },
+  ) {
+    return this.questionsService.rejectQuestion(id, body?.reason, userId);
   }
 
   @Put(':id')

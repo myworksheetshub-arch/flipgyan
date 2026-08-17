@@ -127,12 +127,34 @@ export class QuestionsService {
     return question;
   }
 
-  async create(data: any) {
-    const { options, rubrics, media, ...qData } = data;
+  async create(data: any, userRole?: string) {
+    const { options, rubrics, media, chapterName, subjectName, className, ...qData } = data;
+
+    // Resolve chapterId if chapterName or title is provided without ID
+    let resolvedChapterId = qData.chapterId;
+    if (!resolvedChapterId && chapterName) {
+      const ch = await this.prisma.chapter.findFirst({
+        where: {
+          OR: [
+            { title: { contains: chapterName, mode: 'insensitive' } },
+            { name: { contains: chapterName, mode: 'insensitive' } },
+          ],
+        },
+      });
+      if (ch) resolvedChapterId = ch.id;
+    }
+
+    // Role-based status: Teachers submit for REVIEW, Admins publish as APPROVED
+    let status = qData.status;
+    if (!status) {
+      status = userRole === 'TEACHER' ? 'REVIEW' : 'APPROVED';
+    }
 
     const question = await this.prisma.question.create({
       data: {
         ...qData,
+        chapterId: resolvedChapterId,
+        status,
         options: options && options.length > 0
           ? {
               create: options.map((opt: any, idx: number) => ({
@@ -176,20 +198,20 @@ export class QuestionsService {
     return question;
   }
 
-  async bulkCreate(questions: any[], userId?: string) {
+  async bulkCreate(questions: any[], userId?: string, userRole?: string) {
     if (!Array.isArray(questions) || questions.length === 0) {
       throw new BadRequestException('Questions array cannot be empty');
     }
 
     const created = [];
     for (const q of questions) {
-      const res = await this.create({ ...q, createdById: userId });
+      const res = await this.create({ ...q, createdById: userId }, userRole);
       created.push(res);
     }
     return { count: created.length, items: created };
   }
 
-  async importQuestions(payload: { chapterId: string; questions: any[] }, userId?: string) {
+  async importQuestions(payload: { chapterId: string; questions: any[] }, userId?: string, userRole?: string) {
     const { chapterId, questions } = payload;
     if (!chapterId) throw new BadRequestException('Chapter ID is required for import');
 
@@ -199,7 +221,7 @@ export class QuestionsService {
       createdById: userId,
     }));
 
-    return this.bulkCreate(formatted, userId);
+    return this.bulkCreate(formatted, userId, userRole);
   }
 
   async reviewQuestion(id: string, reviewNotes?: string, reviewerId?: string) {
@@ -212,7 +234,7 @@ export class QuestionsService {
         versionNumber: (question.versions?.length || 0) + 1,
         questionText: question.questionText,
         questionData: JSON.stringify(question),
-        changeReason: reviewNotes || 'Question reviewed',
+        changeReason: reviewNotes || 'Question reviewed by Admin/Teacher',
         createdById: reviewerId,
       },
     });
@@ -229,12 +251,35 @@ export class QuestionsService {
         versionNumber: (question.versions?.length || 0) + 1,
         questionText: question.questionText,
         questionData: JSON.stringify(question),
-        changeReason: 'Question approved for paper generation',
+        changeReason: 'Question approved by Admin for master question bank',
         createdById: approverId,
       },
     });
 
-    return question;
+    return this.prisma.question.update({
+      where: { id },
+      data: { status: 'APPROVED' },
+    });
+  }
+
+  async rejectQuestion(id: string, reason?: string, reviewerId?: string) {
+    const question = await this.findById(id);
+
+    await this.prisma.questionVersion.create({
+      data: {
+        questionId: question.id,
+        versionNumber: (question.versions?.length || 0) + 1,
+        questionText: question.questionText,
+        questionData: JSON.stringify(question),
+        changeReason: reason || 'Question rejected by Admin',
+        createdById: reviewerId,
+      },
+    });
+
+    return this.prisma.question.update({
+      where: { id },
+      data: { status: 'REJECTED' },
+    });
   }
 
   async update(id: string, data: any) {

@@ -247,6 +247,18 @@ class ApiClient {
     return this.request('/questions', { method: 'POST', body: JSON.stringify(data) });
   }
 
+  bulkCreateQuestions(questions: any[]) {
+    return this.request('/questions/bulk', { method: 'POST', body: JSON.stringify({ questions }) });
+  }
+
+  approveQuestion(id: string) {
+    return this.request(`/questions/${id}/approve`, { method: 'POST' });
+  }
+
+  rejectQuestion(id: string, reason?: string) {
+    return this.request(`/questions/${id}/reject`, { method: 'POST', body: JSON.stringify({ reason }) });
+  }
+
   updateQuestion(id: string, data: any) {
     return this.request(`/questions/${id}`, { method: 'PUT', body: JSON.stringify(data) });
   }
