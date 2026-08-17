@@ -64,11 +64,16 @@ export default function AdminQuestionsPage() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const [totalCount, setTotalCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState<number>(50);
 
   const fetchQuestions = async () => {
     try {
       setLoading(true);
-      const params: any = { take: 100 };
+      const params: any = {
+        take: pageSize,
+        skip: (page - 1) * pageSize,
+      };
       if (selectedClassId !== 'ALL') params.classId = selectedClassId;
       if (selectedSubjectId !== 'ALL') params.subjectId = selectedSubjectId;
       if (selectedDifficulty !== 'ALL') params.difficulty = selectedDifficulty;
@@ -102,12 +107,17 @@ export default function AdminQuestionsPage() {
     initData();
   }, []);
 
+  // Reset to page 1 on filter change
+  useEffect(() => {
+    setPage(1);
+  }, [selectedClassId, selectedSubjectId, selectedDifficulty, selectedBloom, selectedType, search, pageSize]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchQuestions();
     }, 200);
     return () => clearTimeout(timer);
-  }, [selectedClassId, selectedSubjectId, selectedDifficulty, selectedBloom, selectedType, search]);
+  }, [selectedClassId, selectedSubjectId, selectedDifficulty, selectedBloom, selectedType, search, page, pageSize]);
 
   const filteredSubjects = selectedClassId === 'ALL'
     ? subjects
@@ -385,66 +395,158 @@ export default function AdminQuestionsPage() {
             </p>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-xs divide-y divide-slate-100 overflow-hidden">
-            {filteredQuestions.map((q, idx) => (
-              <div key={q.id} className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50 transition-colors">
-                <div className="space-y-2 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-extrabold text-xs text-slate-400">#{idx + 1}</span>
-                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${getDifficultyColor(q.difficulty)}`}>
-                      {q.difficulty}
-                    </span>
-                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${getBloomColor(q.bloomLevel)}`}>
-                      {q.bloomLevel}
-                    </span>
-                    <span className="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-bold border border-indigo-100">
-                      {q.questionType} • {q.marks || 1} Marks
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-medium">
-                      {q.chapter?.subject?.name} (Class {q.chapter?.subject?.classGrade?.number}) • Ch {q.chapter?.chapterNumber}
-                    </span>
+          <>
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-xs divide-y divide-slate-100 overflow-hidden">
+              {filteredQuestions.map((q, idx) => (
+                <div key={q.id} className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50 transition-colors">
+                  <div className="space-y-2 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-extrabold text-xs text-slate-400">#{(page - 1) * pageSize + idx + 1}</span>
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${getDifficultyColor(q.difficulty)}`}>
+                        {q.difficulty}
+                      </span>
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${getBloomColor(q.bloomLevel)}`}>
+                        {q.bloomLevel}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-bold border border-indigo-100">
+                        {q.questionType} • {q.marks || 1} Marks
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-medium">
+                        {q.chapter?.subject?.name} (Class {q.chapter?.subject?.classGrade?.number}) • Ch {q.chapter?.chapterNumber}
+                      </span>
+                    </div>
+
+                    <p className="text-xs font-bold text-slate-900 leading-relaxed">{q.questionText}</p>
                   </div>
 
-                  <p className="text-xs font-bold text-slate-900 leading-relaxed">{q.questionText}</p>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => openEditModal(q)}
+                      className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"
+                    >
+                      <Edit className="w-3.5 h-3.5" />
+                      Edit Question
+                    </button>
+
+                    {deletingId === q.id ? (
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={() => handleDelete(q.id)}
+                          className="px-2 py-1 bg-rose-600 text-white text-[10px] font-bold rounded-md"
+                        >
+                          Confirm
+                        </button>
+                        <button
+                          onClick={() => setDeletingId(null)}
+                          className="px-2 py-1 bg-slate-200 text-slate-700 text-[10px] font-bold rounded-md"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setDeletingId(q.id)}
+                        className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
+                        title="Delete Question"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pagination Controls */}
+            {totalCount > 0 && (
+              <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
+                <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
+                  <span>
+                    Showing <strong className="text-slate-900">{Math.min((page - 1) * pageSize + 1, totalCount)}</strong> to{' '}
+                    <strong className="text-slate-900">{Math.min(page * pageSize, totalCount)}</strong> of{' '}
+                    <strong className="text-indigo-600 font-bold">{totalCount}</strong> questions
+                  </span>
+
+                  <div className="flex items-center gap-1.5 pl-3 border-l border-slate-200">
+                    <span className="text-[11px] text-slate-400 font-semibold">Per page:</span>
+                    <select
+                      value={pageSize}
+                      onChange={(e) => setPageSize(Number(e.target.value))}
+                      className="px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700"
+                    >
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                      <option value={250}>250</option>
+                      <option value={500}>500</option>
+                      <option value={2000}>All ({totalCount})</option>
+                    </select>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0">
+                {/* Page Buttons */}
+                <div className="flex items-center gap-1">
                   <button
-                    onClick={() => openEditModal(q)}
-                    className="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"
+                    onClick={() => setPage(1)}
+                    disabled={page <= 1}
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
                   >
-                    <Edit className="w-3.5 h-3.5" />
-                    Edit Question
+                    « First
+                  </button>
+                  <button
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={page <= 1}
+                    className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                  >
+                    ‹ Prev
                   </button>
 
-                  {deletingId === q.id ? (
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={() => handleDelete(q.id)}
-                        className="px-2 py-1 bg-rose-600 text-white text-[10px] font-bold rounded-md"
-                      >
-                        Confirm
-                      </button>
-                      <button
-                        onClick={() => setDeletingId(null)}
-                        className="px-2 py-1 bg-slate-200 text-slate-700 text-[10px] font-bold rounded-md"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => setDeletingId(q.id)}
-                      className="p-1.5 text-slate-400 hover:text-rose-600 transition-colors"
-                      title="Delete Question"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  )}
+                  <div className="flex items-center gap-1 px-1">
+                    {Array.from({ length: Math.min(5, Math.ceil(totalCount / pageSize)) }, (_, i) => {
+                      const totalPages = Math.ceil(totalCount / pageSize);
+                      let pageNum = page;
+                      if (page <= 3) {
+                        pageNum = i + 1;
+                      } else if (page >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = page - 2 + i;
+                      }
+                      if (pageNum < 1 || pageNum > totalPages) return null;
+
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => setPage(pageNum)}
+                          className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${
+                            page === pageNum
+                              ? 'bg-indigo-600 text-white shadow-xs'
+                              : 'text-slate-600 hover:bg-slate-100'
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={() => setPage((p) => Math.min(Math.ceil(totalCount / pageSize), p + 1))}
+                    disabled={page >= Math.ceil(totalCount / pageSize)}
+                    className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                  >
+                    Next ›
+                  </button>
+                  <button
+                    onClick={() => setPage(Math.ceil(totalCount / pageSize))}
+                    disabled={page >= Math.ceil(totalCount / pageSize)}
+                    className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-100 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                  >
+                    Last »
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
 
         {/* MODAL */}
