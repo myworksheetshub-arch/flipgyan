@@ -63,26 +63,51 @@ export default function AdminQuestionsPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
+  const [totalCount, setTotalCount] = useState(0);
+
+  const fetchQuestions = async () => {
+    try {
+      setLoading(true);
+      const params: any = { take: 100 };
+      if (selectedClassId !== 'ALL') params.classId = selectedClassId;
+      if (selectedSubjectId !== 'ALL') params.subjectId = selectedSubjectId;
+      if (selectedDifficulty !== 'ALL') params.difficulty = selectedDifficulty;
+      if (selectedBloom !== 'ALL') params.bloomLevel = selectedBloom;
+      if (selectedType !== 'ALL') params.questionType = selectedType;
+      if (search.trim()) params.search = search.trim();
+
+      const qRes = await api.getQuestions(params);
+      setQuestions(qRes.items || []);
+      setTotalCount(qRes.total || (qRes.items ? qRes.items.length : 0));
+    } catch (err) {
+      console.error('Failed to load questions:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     async function initData() {
       try {
-        setLoading(true);
-        const [qRes, clsRes, subRes] = await Promise.all([
-          api.getQuestions(),
+        const [clsRes, subRes] = await Promise.all([
           api.getClasses(),
           api.getSubjects(),
         ]);
-        setQuestions(qRes.items || []);
         setClasses(clsRes || []);
         setSubjects(subRes || []);
       } catch (err) {
-        console.error('Failed to load question bank:', err);
-      } finally {
-        setLoading(false);
+        console.error('Failed to load classes and subjects:', err);
       }
     }
     initData();
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchQuestions();
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [selectedClassId, selectedSubjectId, selectedDifficulty, selectedBloom, selectedType, search]);
 
   const filteredSubjects = selectedClassId === 'ALL'
     ? subjects
@@ -104,24 +129,7 @@ export default function AdminQuestionsPage() {
     loadChapters();
   }, [subjectId]);
 
-  const filteredQuestions = questions.filter((q) => {
-    const matchesSearch =
-      !search ||
-      q.questionText.toLowerCase().includes(search.toLowerCase()) ||
-      (q.explanation || '').toLowerCase().includes(search.toLowerCase());
-
-    const matchesDifficulty = selectedDifficulty === 'ALL' || q.difficulty === selectedDifficulty;
-    const matchesBloom = selectedBloom === 'ALL' || q.bloomLevel === selectedBloom;
-    const matchesType = selectedType === 'ALL' || q.questionType === selectedType;
-
-    const qClassId = q.chapter?.subject?.classGradeId || q.chapter?.subject?.classGrade?.id;
-    const matchesClass = selectedClassId === 'ALL' || qClassId === selectedClassId;
-
-    const qSubjectId = q.chapter?.subjectId;
-    const matchesSubject = selectedSubjectId === 'ALL' || qSubjectId === selectedSubjectId;
-
-    return matchesSearch && matchesDifficulty && matchesBloom && matchesType && matchesClass && matchesSubject;
-  });
+  const filteredQuestions = questions;
 
   const openCreateModal = () => {
     setEditingQId(null);
@@ -246,9 +254,14 @@ export default function AdminQuestionsPage() {
               <HelpCircle className="w-7 h-7 text-indigo-600" />
               Master Question Bank & Taxonomy Editor
             </h1>
-            <p className="text-xs text-slate-500 mt-1">
-              Authored CBSE questions aligned with Bloom's Taxonomy, NEP 2020 competencies, and PARAKH rubrics.
-            </p>
+            <div className="flex flex-wrap items-center gap-2 mt-1">
+              <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-extrabold border border-indigo-200">
+                {totalCount} Total Questions in Bank
+              </span>
+              <p className="text-xs text-slate-500">
+                Authored CBSE questions aligned with Bloom's Taxonomy, NEP 2020 competencies, and PARAKH rubrics.
+              </p>
+            </div>
           </div>
           <button
             onClick={openCreateModal}
