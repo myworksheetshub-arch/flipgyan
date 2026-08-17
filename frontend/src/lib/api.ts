@@ -11,9 +11,27 @@ import {
   Achievement,
 } from '@/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-
 class ApiClient {
+  getBaseUrl(): string {
+    if (typeof window !== 'undefined') {
+      const customUrl = localStorage.getItem('flipgyan_api_url');
+      if (customUrl && customUrl.trim()) {
+        return customUrl.trim().replace(/\/+$/, '');
+      }
+    }
+    return (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').replace(/\/+$/, '');
+  }
+
+  setBaseUrl(url: string) {
+    if (typeof window !== 'undefined') {
+      if (url && url.trim()) {
+        localStorage.setItem('flipgyan_api_url', url.trim().replace(/\/+$/, ''));
+      } else {
+        localStorage.removeItem('flipgyan_api_url');
+      }
+    }
+  }
+
   private getAuthHeader(): Record<string, string> {
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('flipgyan_token');
@@ -37,7 +55,8 @@ class ApiClient {
   }
 
   private async request<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const url = `${API_BASE_URL}${endpoint}`;
+    const baseUrl = this.getBaseUrl();
+    const url = `${baseUrl}${endpoint}`;
     const headers = {
       'Content-Type': 'application/json',
       ...this.getAuthHeader(),
@@ -71,6 +90,9 @@ class ApiClient {
       return data;
     } catch (error: any) {
       console.error(`API Error [${endpoint}]:`, error);
+      if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+        throw new Error(`Cannot connect to FlipGyan backend server at ${baseUrl}. Please ensure the backend server is running.`);
+      }
       throw error;
     }
   }
@@ -341,7 +363,7 @@ class ApiClient {
   }
 
   async uploadAvatar(file: File) {
-    const url = `${API_BASE_URL}/users/avatar`;
+    const url = `${this.getBaseUrl()}/users/avatar`;
     const formData = new FormData();
     formData.append('file', file);
 
