@@ -8,7 +8,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User | undefined>;
   loginWithGoogle: (data: { email: string; name?: string; avatar?: string; googleId?: string; role?: string; classGradeId?: string }) => Promise<void>;
   register: (data: any) => Promise<void>;
   logout: () => void;
@@ -60,6 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('flipgyan_token', res.tokens.accessToken);
       setToken(res.tokens.accessToken);
       setUser(res.user);
+      return res.user;
     } finally {
       setIsLoading(false);
     }

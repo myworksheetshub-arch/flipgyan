@@ -20,8 +20,15 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
     try {
-      await login(email, password);
-      router.push('/student/dashboard');
+      const loggedInUser = await login(email, password);
+      const redirectMap: Record<string, string> = {
+        STUDENT: '/student/dashboard',
+        TEACHER: '/teacher/dashboard',
+        PARENT: '/parent/dashboard',
+        ADMIN: '/admin/dashboard',
+      };
+      const dest = loggedInUser?.role ? redirectMap[loggedInUser.role] : '/student/dashboard';
+      router.push(dest || '/student/dashboard');
     } catch (err: any) {
       setError(err.message || 'Invalid email or password');
     } finally {

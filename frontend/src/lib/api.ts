@@ -77,10 +77,8 @@ class ApiClient {
     try {
       return await this.executeFetch<T>(url, options, headers);
     } catch (error: any) {
-      console.warn(`Primary API call to ${url} failed:`, error?.message);
-      
       // Fallback: If custom/tunnel URL failed, try standard default or local backend
-      const fallbackUrl = 'https://imported-transmission-flip-dictionaries.trycloudflare.com';
+      const fallbackUrl = 'https://mississippi-charms-latino-bernard.trycloudflare.com';
       if (baseUrl !== fallbackUrl && typeof window !== 'undefined') {
         console.log(`Retrying API call with fallback endpoint: ${fallbackUrl}`);
         if (localStorage.getItem('flipgyan_api_url')) {
