@@ -13,13 +13,24 @@ import {
 
 class ApiClient {
   getBaseUrl(): string {
+    const defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://imported-transmission-flip-dictionaries.trycloudflare.com').trim().replace(/\/+$/, '');
+
     if (typeof window !== 'undefined') {
       const customUrl = localStorage.getItem('flipgyan_api_url');
-      if (customUrl && customUrl.trim()) {
+      // Clean up known obsolete/dead trycloudflare URLs from previous sessions
+      if (customUrl && (customUrl.includes('auckland-') || customUrl.includes('emma-discuss-'))) {
+        localStorage.removeItem('flipgyan_api_url');
+      } else if (customUrl && customUrl.trim()) {
         return customUrl.trim().replace(/\/+$/, '');
       }
+
+      // If running on localhost and no custom url set, use local backend
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return 'http://localhost:4000';
+      }
     }
-    return (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000').trim().replace(/\/+$/, '');
+
+    return defaultUrl;
   }
 
   setBaseUrl(url: string) {
@@ -55,8 +66,8 @@ class ApiClient {
   }
 
   private async request<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const baseUrl = this.getBaseUrl();
-    const url = `${baseUrl}${endpoint}`;
+    let baseUrl = this.getBaseUrl();
+    let url = `${baseUrl}${endpoint}`;
     const headers = {
       'Content-Type': 'application/json',
       ...this.getAuthHeader(),
@@ -64,37 +75,56 @@ class ApiClient {
     };
 
     try {
-      const response = await fetch(url, { ...options, headers });
-      let data: any = {};
-      const contentType = response.headers.get('content-type') || '';
-      
-      if (contentType.includes('application/json')) {
-        try {
-          data = await response.json();
-        } catch (_) {
-          data = {};
-        }
-      } else {
-        const text = await response.text();
-        try {
-          data = JSON.parse(text);
-        } catch (_) {
-          data = { message: text || `Request returned status ${response.status}` };
-        }
-      }
-
-      if (!response.ok) {
-        throw new Error(data.message || `Request failed with status ${response.status}`);
-      }
-
-      return data;
+      return await this.executeFetch<T>(url, options, headers);
     } catch (error: any) {
-      console.error(`API Error [${endpoint}]:`, error);
-      if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+      console.warn(`Primary API call to ${url} failed:`, error?.message);
+      
+      // Fallback: If custom/tunnel URL failed, try standard default or local backend
+      const fallbackUrl = 'https://imported-transmission-flip-dictionaries.trycloudflare.com';
+      if (baseUrl !== fallbackUrl && typeof window !== 'undefined') {
+        console.log(`Retrying API call with fallback endpoint: ${fallbackUrl}`);
+        if (localStorage.getItem('flipgyan_api_url')) {
+          localStorage.removeItem('flipgyan_api_url');
+        }
+        try {
+          return await this.executeFetch<T>(`${fallbackUrl}${endpoint}`, options, headers);
+        } catch (fallbackErr: any) {
+          console.error(`Fallback API call also failed:`, fallbackErr);
+        }
+      }
+
+      if (error.message === 'Failed to fetch' || error.name === 'TypeError' || error.message?.includes('NetworkError')) {
         throw new Error(`Cannot connect to FlipGyan backend server at ${baseUrl}. Please ensure the backend server is running.`);
       }
       throw error;
     }
+  }
+
+  private async executeFetch<T = any>(url: string, options: RequestInit, headers: Record<string, string>): Promise<T> {
+    const response = await fetch(url, { ...options, headers });
+    let data: any = {};
+    const contentType = response.headers.get('content-type') || '';
+    
+    if (contentType.includes('application/json')) {
+      try {
+        data = await response.json();
+      } catch (_) {
+        data = {};
+      }
+    } else {
+      const text = await response.text();
+      try {
+        data = JSON.parse(text);
+      } catch (_) {
+        data = { message: text || `Request returned status ${response.status}` };
+      }
+    }
+
+    if (!response.ok) {
+      throw new Error(data.message || `Request failed with status ${response.status}`);
+    }
+
+    return data;
   }
 
   // Auth
