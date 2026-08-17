@@ -161,6 +161,12 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('🚀 Starting Master Seed execution with 100+ CBSE Class 7 Math NEP 2025 Questions...');
 
+  // Disable Supabase statement timeout for the seed session (default is 8s on free tier)
+  console.log('⚙️  Disabling statement_timeout for seed session...');
+  await prisma.$executeRawUnsafe('SET statement_timeout = 0');
+  await prisma.$executeRawUnsafe('SET lock_timeout = 0');
+  console.log('✅ statement_timeout disabled.');
+
   // 1. Seed Classes
   const classes = await seedClasses(prisma);
 

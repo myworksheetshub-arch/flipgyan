@@ -1,6 +1,64 @@
 import { PrismaClient } from '@prisma/client';
 
 /**
+ * Disables statement_timeout for the current Supabase session.
+ * Supabase free tier has an 8s default statement_timeout that kills slow upserts.
+ */
+async function disableStatementTimeout(prisma: PrismaClient): Promise<void> {
+  try {
+    await prisma.$executeRawUnsafe('SET statement_timeout = 0');
+    await prisma.$executeRawUnsafe('SET lock_timeout = 0');
+  } catch (_) {}
+}
+
+/**
+ * Retry helper — reconnects Prisma and retries on ALL connection/timeout errors.
+ * Handles: P1017, P1001, PrismaClientInitializationError, 57014, "Can't reach database"
+ * Supabase rate-limits rapid reconnections; we use exponential back-off starting at 5s.
+ */
+async function retryWithReconnect<T>(
+  prisma: PrismaClient,
+  fn: () => Promise<T>,
+  retries = 8,
+  delayMs = 5000,
+): Promise<T> {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (err: any) {
+      const msg = err?.message || '';
+      const isConnErr =
+        err?.code === 'P1017' ||
+        err?.code === 'P1001' ||
+        msg.includes('Server has closed') ||
+        msg.includes("Can't reach database") ||
+        msg.includes('connection') ||
+        msg.includes('ECONNREFUSED') ||
+        msg.includes('ENOTFOUND') ||
+        err?.constructor?.name === 'PrismaClientInitializationError';
+      const isTimeoutErr =
+        msg.includes('57014') ||
+        msg.includes('statement timeout') ||
+        msg.includes('canceling statement');
+
+      if ((isConnErr || isTimeoutErr) && attempt < retries) {
+        const reason = isTimeoutErr ? 'Statement timeout' : 'Connection error';
+        console.log(`  ⚠️  ${reason} (attempt ${attempt}/${retries}), waiting ${delayMs}ms before retry...`);
+        try { await prisma.$disconnect(); } catch (_) {}
+        await new Promise((r) => setTimeout(r, delayMs));
+        try { await prisma.$connect(); } catch (_) {}
+        // Re-disable timeout on fresh connection
+        await disableStatementTimeout(prisma);
+        delayMs = Math.min(delayMs * 2, 30000); // exponential back-off, max 30s
+      } else {
+        throw err;
+      }
+    }
+  }
+  throw new Error('Max retries exceeded');
+}
+
+/**
  * Multi-Format CBSE Question Bank Generator (NEP 2020 & PARAKH Aligned):
  * Generates questions across all 6 core CBSE assessment formats for every chapter:
  * 1. Multiple Choice Questions (MCQs - 1-2 Marks)
@@ -15,12 +73,26 @@ export async function seedQuestions(prisma: PrismaClient, chapters: any[]) {
   console.log('❓ Seeding Multi-Format CBSE Question Bank (MCQ, A-R, Fill-Blank, True/False, Case Studies, Subjective, Skill/Diagram) across all classes & subjects...');
   const questions = [];
   let globalQuestionCounter = 1;
+  let chapterIndex = 0;
 
   for (const chapter of chapters) {
-    const existingQs = await prisma.question.findMany({
-      where: { chapterId: chapter.id },
-      include: { options: true },
-    });
+    chapterIndex++;
+
+    // Small breathing room between chapters to avoid Supabase rate-limiting
+    await new Promise((r) => setTimeout(r, 300));
+
+    // Keep-alive ping every 10 chapters to prevent idle connection drops
+    if (chapterIndex % 10 === 0) {
+      console.log(`  📡 Keep-alive ping (chapter ${chapterIndex}/${chapters.length})...`);
+      try { await prisma.$queryRaw`SELECT 1`; } catch (_) {}
+    }
+
+    const existingQs = await retryWithReconnect(prisma, () =>
+      prisma.question.findMany({
+        where: { chapterId: chapter.id },
+        include: { options: true },
+      })
+    );
 
     const subCode = chapter.subject?.code || 'SUB';
     const subName = chapter.subject?.name || 'Subject';
@@ -55,46 +127,50 @@ export async function seedQuestions(prisma: PrismaClient, chapters: any[]) {
           { optionLabel: 'D', optionText: `Option D for ${chTitle}`, text: `Option D for ${chTitle}`, isCorrect: false, sequence: 4 },
         ];
 
-        const createdQ = await prisma.question.upsert({
-          where: { questionCode: qCode },
-          update: {
-            questionText: q.questionText,
-            explanation: q.explanation || 'Step-by-step verified solution.',
-          },
-          create: {
-            chapterId: chapter.id,
-            questionCode: qCode,
-            questionText: q.questionText,
-            type: q.type || 'MCQ',
-            questionType: q.questionType || q.type || 'MCQ',
-            difficulty: q.difficulty || 'MEDIUM',
-            bloomLevel: q.bloomLevel || 'UNDERSTAND',
-            competency: q.competency || 'CONCEPTUAL',
-            marks: q.marks !== undefined ? q.marks : 2,
-            negativeMarks: q.negativeMarks !== undefined ? q.negativeMarks : 0,
-            explanation: q.explanation || 'Step-by-step verified solution.',
-            answerText: q.answerText || null,
-            options: {
-              create: optionData,
+        const createdQ = await retryWithReconnect(prisma, () =>
+          prisma.question.upsert({
+            where: { questionCode: qCode },
+            update: {
+              questionText: q.questionText,
+              explanation: q.explanation || 'Step-by-step verified solution.',
             },
-          },
-          include: { options: true },
-        });
+            create: {
+              chapterId: chapter.id,
+              questionCode: qCode,
+              questionText: q.questionText,
+              type: q.type || 'MCQ',
+              questionType: q.questionType || q.type || 'MCQ',
+              difficulty: q.difficulty || 'MEDIUM',
+              bloomLevel: q.bloomLevel || 'UNDERSTAND',
+              competency: q.competency || 'CONCEPTUAL',
+              marks: q.marks !== undefined ? q.marks : 2,
+              negativeMarks: q.negativeMarks !== undefined ? q.negativeMarks : 0,
+              explanation: q.explanation || 'Step-by-step verified solution.',
+              answerText: q.answerText || null,
+              options: {
+                create: optionData,
+              },
+            },
+            include: { options: true },
+          })
+        );
         questions.push(createdQ);
       }
     }
 
     // Refresh current questions in chapter
-    const currentQs = await prisma.question.findMany({
-      where: { chapterId: chapter.id },
-    });
+    const currentQs = await retryWithReconnect(prisma, () =>
+      prisma.question.findMany({
+        where: { chapterId: chapter.id },
+      })
+    );
 
     // Helper to check if question format exists
     const hasFormat = (fmt: string) => currentQs.some((q) => q.questionType === fmt || (q as any).type === fmt);
 
     // 2. ASSERTION-REASONING QUESTION
     if (!hasFormat('ASSERTION_REASON')) {
-      const arQ = await prisma.question.create({
+      const arQ = await retryWithReconnect(prisma, () => prisma.question.create({
         data: {
           chapterId: chapter.id,
           questionCode: generateCode('AR', globalQuestionCounter++),
@@ -117,13 +193,13 @@ export async function seedQuestions(prisma: PrismaClient, chapters: any[]) {
           },
         },
         include: { options: true },
-      });
+      }));
       questions.push(arQ);
     }
 
     // 3. FILL IN THE BLANKS QUESTION
     if (!hasFormat('FILL_BLANK')) {
-      const fbQ = await prisma.question.create({
+      const fbQ = await retryWithReconnect(prisma, () => prisma.question.create({
         data: {
           chapterId: chapter.id,
           questionCode: generateCode('FB', globalQuestionCounter++),
@@ -146,13 +222,13 @@ export async function seedQuestions(prisma: PrismaClient, chapters: any[]) {
           },
         },
         include: { options: true },
-      });
+      }));
       questions.push(fbQ);
     }
 
     // 4. TRUE / FALSE QUESTION
     if (!hasFormat('TRUE_FALSE')) {
-      const tfQ = await prisma.question.create({
+      const tfQ = await retryWithReconnect(prisma, () => prisma.question.create({
         data: {
           chapterId: chapter.id,
           questionCode: generateCode('TF', globalQuestionCounter++),
@@ -173,13 +249,13 @@ export async function seedQuestions(prisma: PrismaClient, chapters: any[]) {
           },
         },
         include: { options: true },
-      });
+      }));
       questions.push(tfQ);
     }
 
     // 5. COMPETENCY CASE STUDY QUESTION (4 Marks)
     if (!hasFormat('CASE_STUDY')) {
-      const csQ = await prisma.question.create({
+      const csQ = await retryWithReconnect(prisma, () => prisma.question.create({
         data: {
           chapterId: chapter.id,
           questionCode: generateCode('CS', globalQuestionCounter++),
@@ -202,13 +278,13 @@ export async function seedQuestions(prisma: PrismaClient, chapters: any[]) {
           },
         },
         include: { options: true },
-      });
+      }));
       questions.push(csQ);
     }
 
     // 6. SUBJECTIVE CONSTRUCTED-RESPONSE (3 Marks)
     if (!hasFormat('SHORT_ANSWER')) {
-      const saQ = await prisma.question.create({
+      const saQ = await retryWithReconnect(prisma, () => prisma.question.create({
         data: {
           chapterId: chapter.id,
           questionCode: generateCode('SA', globalQuestionCounter++),
@@ -229,13 +305,13 @@ export async function seedQuestions(prisma: PrismaClient, chapters: any[]) {
           },
         },
         include: { options: true },
-      });
+      }));
       questions.push(saQ);
     }
 
     // 7. SKILL & PRACTICAL DIAGRAM/MAP-BASED QUESTION (3 Marks)
     if (!hasFormat('DIAGRAM')) {
-      const diagQ = await prisma.question.create({
+      const diagQ = await retryWithReconnect(prisma, () => prisma.question.create({
         data: {
           chapterId: chapter.id,
           questionCode: generateCode('DIAG', globalQuestionCounter++),
@@ -256,7 +332,7 @@ export async function seedQuestions(prisma: PrismaClient, chapters: any[]) {
           },
         },
         include: { options: true },
-      });
+      }));
       questions.push(diagQ);
     }
   }

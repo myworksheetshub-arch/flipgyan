@@ -13,7 +13,7 @@ export class WorksheetsService {
     difficulty?: string;
     search?: string;
   }) {
-    const where: any = { isPublished: true, totalQuestions: 21 };
+    const where: any = { isPublished: true };
 
     if (query.chapterId) where.chapterId = query.chapterId;
     if (query.subjectId) where.subjectId = query.subjectId;
