@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Zap, BookOpen, FileSpreadsheet, HelpCircle, FileText, Sparkles, Heart } from 'lucide-react';
+import { Zap, BookOpen, FileSpreadsheet, HelpCircle, FileText, Sparkles, Heart, Mail } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -23,9 +23,15 @@ export function Footer() {
               India's premier interactive educational platform for K–12 and CBSE students, teachers, and parents.
               Empowering learners with structured study notes, visual mind maps, printable worksheets, and gamified quizzes.
             </p>
-            <p className="text-xs text-brand-400 font-semibold italic">
-              "Learn Smarter. Practice Better. Achieve More."
-            </p>
+            <div className="pt-2">
+              <a
+                href="mailto:support@flipgyan.com"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-brand-400 hover:text-brand-300 border border-slate-700/60 text-xs font-bold transition group"
+              >
+                <Mail className="w-4 h-4 text-brand-400 group-hover:scale-110 transition-transform" />
+                <span>support@flipgyan.com</span>
+              </a>
+            </div>
           </div>
 
           {/* Quick Learning Links */}
@@ -92,7 +98,13 @@ export function Footer() {
                 <Link href="/pricing" className="hover:text-white transition">Pricing Plans</Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition">Support & Contact</Link>
+                <Link href="/contact" className="hover:text-white transition">Contact Us</Link>
+              </li>
+              <li>
+                <a href="mailto:support@flipgyan.com" className="text-brand-400 hover:text-brand-300 font-semibold transition flex items-center gap-1.5 pt-1">
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>support@flipgyan.com</span>
+                </a>
               </li>
             </ul>
           </div>
@@ -100,8 +112,15 @@ export function Footer() {
 
         <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p>© {new Date().getFullYear()} FlipGyan Learning Technologies. All rights reserved.</p>
-          <div className="flex items-center gap-1">
-            <span>Built with precision for educational excellence</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <span>Need help or inquiries?</span>
+            <a
+              href="mailto:support@flipgyan.com"
+              className="inline-flex items-center gap-1.5 font-bold text-brand-400 hover:text-brand-300 transition"
+            >
+              <Mail className="w-3.5 h-3.5" />
+              <span>support@flipgyan.com</span>
+            </a>
           </div>
         </div>
       </div>

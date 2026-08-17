@@ -27,6 +27,7 @@ import {
   GraduationCap,
   Shield,
   HeartHandshake,
+  Mail,
 } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -251,6 +252,17 @@ export function DashboardLayout({ children, role }: DashboardLayoutProps) {
               </button>
             </div>
           </div>
+
+          <a
+            href="mailto:support@flipgyan.com"
+            className="flex items-center gap-2 w-full px-3 py-2 text-xs font-semibold text-slate-600 hover:text-brand-600 hover:bg-slate-100 rounded-xl transition"
+          >
+            <Mail className="w-4 h-4 text-brand-500" />
+            <div className="flex flex-col text-left">
+              <span className="text-[10px] text-slate-400 font-medium">Need Assistance?</span>
+              <span className="text-[11px] font-bold">support@flipgyan.com</span>
+            </div>
+          </a>
 
           <button
             onClick={() => {
