@@ -13,12 +13,12 @@ import {
 
 class ApiClient {
   getBaseUrl(): string {
-    const defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://imported-transmission-flip-dictionaries.trycloudflare.com').trim().replace(/\/+$/, '');
+    const defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://mississippi-charms-latino-bernard.trycloudflare.com').trim().replace(/\/+$/, '');
 
     if (typeof window !== 'undefined') {
       const customUrl = localStorage.getItem('flipgyan_api_url');
-      // Clean up known obsolete/dead trycloudflare URLs from previous sessions
-      if (customUrl && (customUrl.includes('auckland-') || customUrl.includes('emma-discuss-'))) {
+      // Automatically clean up stale or dead trycloudflare URLs from previous sessions
+      if (customUrl && customUrl.includes('trycloudflare.com') && !customUrl.includes('mississippi-charms-latino-bernard')) {
         localStorage.removeItem('flipgyan_api_url');
       } else if (customUrl && customUrl.trim()) {
         return customUrl.trim().replace(/\/+$/, '');
