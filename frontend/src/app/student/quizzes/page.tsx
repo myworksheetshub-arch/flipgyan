@@ -50,7 +50,7 @@ export default function StudentQuizzesPage() {
         // Strictly filter to ensure student sees ONLY their enrolled class quizzes
         const filteredData = data.filter((qz) => {
           const qzClassNum = String(qz.subject?.classGrade?.number || '');
-          return !qzClassNum || qzClassNum === studentClassNum;
+          return qzClassNum === studentClassNum;
         });
 
         setQuizzes(filteredData);

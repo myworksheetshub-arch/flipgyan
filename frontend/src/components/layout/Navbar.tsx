@@ -37,16 +37,16 @@ export function Navbar() {
     }
   };
 
+  const isStudent = user?.role === 'STUDENT' || (user as any)?.role === 'PRO_STUDENT';
+
   const navLinks = [
-    { name: 'Study Notes', href: '/study-notes', icon: BookOpen },
-    { name: 'Worksheets', href: '/worksheets', icon: FileSpreadsheet },
-    { name: 'Quizzes', href: '/quizzes', icon: HelpCircle },
+    { name: 'Study Notes', href: isStudent ? '/student/notes' : '/study-notes', icon: BookOpen },
+    { name: 'Worksheets', href: isStudent ? '/student/worksheets' : '/worksheets', icon: FileSpreadsheet },
+    { name: 'Quizzes', href: isStudent ? '/student/quizzes' : '/quizzes', icon: HelpCircle },
     { name: 'Question Papers', href: '/question-papers', icon: FileText },
     { name: 'Classes & Subjects', href: '/classes', icon: Sparkles },
     { name: 'Pricing', href: '/pricing', icon: Award },
   ];
-
-  const isStudent = !user || user?.role === 'STUDENT' || (user as any)?.role === 'PRO_STUDENT';
 
   const visibleNavLinks = navLinks.filter((link) => {
     if (isStudent && (link.name === 'Question Papers' || link.name === 'Classes & Subjects')) {
