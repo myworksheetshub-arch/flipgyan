@@ -100,7 +100,7 @@ class ApiClient {
     }
   }
 
-  private async executeFetch<T = any>(url: string, options: RequestInit, headers: Record<string, string>): Promise<T> {
+  private async executeFetch<T = any>(url: string, options: RequestInit, headers: HeadersInit): Promise<T> {
     const response = await fetch(url, { ...options, headers });
     let data: any = {};
     const contentType = response.headers.get('content-type') || '';
