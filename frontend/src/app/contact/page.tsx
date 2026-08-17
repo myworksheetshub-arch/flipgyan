@@ -32,11 +32,15 @@ export default function ContactPage() {
           <div className="space-y-4 text-xs">
             <div className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-brand-400" />
-              <span>support@flipgyan.com</span>
+              <a href="mailto:support@flipgyan.com" className="hover:text-brand-300 transition">
+                support@flipgyan.com
+              </a>
             </div>
             <div className="flex items-center gap-3">
               <Phone className="w-4 h-4 text-brand-400" />
-              <span>+91 1800 572 8900 (Toll Free)</span>
+              <a href="tel:+918853746328" className="hover:text-brand-300 transition font-medium">
+                +91 8853746328
+              </a>
             </div>
             <div className="flex items-center gap-3">
               <MapPin className="w-4 h-4 text-brand-400" />
