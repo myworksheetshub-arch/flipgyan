@@ -13,7 +13,12 @@ import {
 
 class ApiClient {
   getBaseUrl(): string {
-    const defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://mississippi-charms-latino-bernard.trycloudflare.com').trim().replace(/\/+$/, '');
+    let defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://mississippi-charms-latino-bernard.trycloudflare.com').trim().replace(/\/+$/, '');
+
+    // Intercept any obsolete trycloudflare domains and force active tunnel URL
+    if (!defaultUrl || (defaultUrl.includes('trycloudflare.com') && !defaultUrl.includes('mississippi-charms-latino-bernard'))) {
+      defaultUrl = 'https://mississippi-charms-latino-bernard.trycloudflare.com';
+    }
 
     if (typeof window !== 'undefined') {
       const customUrl = localStorage.getItem('flipgyan_api_url');
