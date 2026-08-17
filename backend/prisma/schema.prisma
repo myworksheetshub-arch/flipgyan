@@ -164,6 +164,11 @@ model User {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([role])
+  @@index([classGradeId])
+  @@index([schoolId])
+  @@index([parentId])
 }
 
 //////////////////////////////////////////////////////
@@ -250,6 +255,10 @@ model Subject {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([classGradeId])
+  @@index([schoolId])
+  @@index([code])
 }
 
 //////////////////////////////////////////////////////
@@ -276,6 +285,9 @@ model Chapter {
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+
+  @@index([subjectId])
+  @@index([subjectId, chapterNumber])
 }
 
 //////////////////////////////////////////////////////
@@ -298,6 +310,9 @@ model Topic {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([chapterId])
+  @@index([chapterId, order])
 }
 
 //////////////////////////////////////////////////////
@@ -607,6 +622,11 @@ model StudyNote {
 
   chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
   topic   Topic?  @relation(fields: [topicId], references: [id], onDelete: SetNull)
+
+  @@index([chapterId])
+  @@index([topicId])
+  @@index([isPublished])
+  @@index([chapterId, isPublished])
 }
 
 model Worksheet {
@@ -634,6 +654,14 @@ model Worksheet {
   questions   WorksheetQuestion[]
   attempts    WorksheetAttempt[]
   assignments Assignment[]
+
+  @@index([subjectId])
+  @@index([chapterId])
+  @@index([type])
+  @@index([difficulty])
+  @@index([isPublished])
+  @@index([subjectId, isPublished])
+  @@index([createdById])
 }
 
 model WorksheetQuestion {
@@ -645,6 +673,9 @@ model WorksheetQuestion {
 
   worksheet Worksheet @relation(fields: [worksheetId], references: [id], onDelete: Cascade)
   question  Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([worksheetId])
+  @@index([questionId])
 }
 
 model WorksheetAttempt {
@@ -661,6 +692,11 @@ model WorksheetAttempt {
 
   worksheet Worksheet @relation(fields: [worksheetId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([worksheetId])
+  @@index([userId, worksheetId])
+  @@index([userId, submittedAt(sort: Desc)])
 }
 
 model Quiz {
@@ -684,6 +720,13 @@ model Quiz {
   questions   QuizQuestion[]
   attempts    QuizAttempt[]
   assignments Assignment[]
+
+  @@index([subjectId])
+  @@index([chapterId])
+  @@index([difficulty])
+  @@index([isPublished])
+  @@index([subjectId, isPublished])
+  @@index([createdById])
 }
 
 model QuizQuestion {
@@ -694,6 +737,9 @@ model QuizQuestion {
 
   quiz     Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([quizId])
+  @@index([questionId])
 }
 
 model QuizAttempt {
@@ -712,6 +758,11 @@ model QuizAttempt {
 
   quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([quizId])
+  @@index([userId, quizId])
+  @@index([userId, completedAt(sort: Desc)])
 }
 
 model Bookmark {
@@ -773,6 +824,10 @@ model Assignment {
   worksheet          Worksheet?          @relation(fields: [worksheetId], references: [id], onDelete: SetNull)
   quiz               Quiz?               @relation(fields: [quizId], references: [id], onDelete: SetNull)
   studentAssignments StudentAssignment[]
+
+  @@index([teacherId])
+  @@index([classGradeId])
+  @@index([subjectId])
 }
 
 model StudentAssignment {
@@ -788,6 +843,9 @@ model StudentAssignment {
   student    User       @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   @@unique([assignmentId, studentId])
+  @@index([studentId])
+  @@index([assignmentId])
+  @@index([status])
 }
 
 model Subscription {
@@ -801,6 +859,10 @@ model Subscription {
   createdAt  DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([userId, status])
 }
 
 model LearningActivity {
@@ -813,6 +875,9 @@ model LearningActivity {
   createdAt    DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, createdAt(sort: Desc)])
 }
 
 //////////////////////////////////////////////////////
