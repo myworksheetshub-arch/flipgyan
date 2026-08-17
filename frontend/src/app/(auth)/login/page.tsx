@@ -212,7 +212,7 @@ export default function LoginPage() {
                 <span className="font-bold text-slate-700">API Endpoint URL:</span>
                 <button
                   type="button"
-                  onClick={() => setCustomApiUrl('https://auckland-nirvana-singles-statutory.trycloudflare.com')}
+                  onClick={() => setCustomApiUrl('https://sheriff-spectacular-few-cage.trycloudflare.com')}
                   className="text-[10px] text-brand-600 font-bold hover:underline"
                 >
                   Use Live Cloudflare Tunnel

@@ -21,11 +21,12 @@ class ApiClient {
     }
     const envUrl = (process.env.NEXT_PUBLIC_API_URL || '').trim().replace(/\/+$/, '');
     // If envUrl is the old/dead tunnel or empty, fallback to the active live tunnel
-    if (!envUrl || envUrl.includes('emma-discuss-instances-spoke')) {
+    const deadTunnels = ['emma-discuss-instances-spoke', 'auckland-nirvana-singles-statutory'];
+    if (!envUrl || deadTunnels.some(t => envUrl.includes(t))) {
       if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
         return 'http://localhost:4000';
       }
-      return 'https://auckland-nirvana-singles-statutory.trycloudflare.com';
+      return 'https://sheriff-spectacular-few-cage.trycloudflare.com';
     }
     return envUrl;
   }
