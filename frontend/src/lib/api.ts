@@ -13,17 +13,17 @@ import {
 
 class ApiClient {
   getBaseUrl(): string {
-    let defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://mississippi-charms-latino-bernard.trycloudflare.com').trim().replace(/\/+$/, '');
+    let defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://those-screensavers-blacks-wan.trycloudflare.com').trim().replace(/\/+$/, '');
 
     // Intercept any obsolete trycloudflare domains and force active tunnel URL
-    if (!defaultUrl || (defaultUrl.includes('trycloudflare.com') && !defaultUrl.includes('mississippi-charms-latino-bernard'))) {
-      defaultUrl = 'https://mississippi-charms-latino-bernard.trycloudflare.com';
+    if (!defaultUrl || (defaultUrl.includes('trycloudflare.com') && !defaultUrl.includes('those-screensavers-blacks-wan'))) {
+      defaultUrl = 'https://those-screensavers-blacks-wan.trycloudflare.com';
     }
 
     if (typeof window !== 'undefined') {
       const customUrl = localStorage.getItem('flipgyan_api_url');
       // Automatically clean up stale or dead trycloudflare URLs from previous sessions
-      if (customUrl && customUrl.includes('trycloudflare.com') && !customUrl.includes('mississippi-charms-latino-bernard')) {
+      if (customUrl && customUrl.includes('trycloudflare.com') && !customUrl.includes('those-screensavers-blacks-wan')) {
         localStorage.removeItem('flipgyan_api_url');
       } else if (customUrl && customUrl.trim()) {
         return customUrl.trim().replace(/\/+$/, '');
@@ -83,7 +83,7 @@ class ApiClient {
       return await this.executeFetch<T>(url, options, headers);
     } catch (error: any) {
       // Fallback: If custom/tunnel URL failed, try standard default or local backend
-      const fallbackUrl = 'https://mississippi-charms-latino-bernard.trycloudflare.com';
+      const fallbackUrl = 'https://those-screensavers-blacks-wan.trycloudflare.com';
       if (baseUrl !== fallbackUrl && typeof window !== 'undefined') {
         console.log(`Retrying API call with fallback endpoint: ${fallbackUrl}`);
         if (localStorage.getItem('flipgyan_api_url')) {
