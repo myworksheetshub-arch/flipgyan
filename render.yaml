@@ -13,9 +13,9 @@ services:
       - key: PORT
         value: 10000
       - key: DATABASE_URL
-        value: postgresql://postgres:Arnav%402047a@db.tlrlmakqlkuqlgosydvx.supabase.co:5432/postgres
+        value: postgresql://postgres.tlrlmakqlkuqlgosydvx:Arnav%402047a@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres?pgbouncer=true
       - key: DIRECT_URL
-        value: postgresql://postgres:Arnav%402047a@db.tlrlmakqlkuqlgosydvx.supabase.co:5432/postgres
+        value: postgresql://postgres.tlrlmakqlkuqlgosydvx:Arnav%402047a@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres
       - key: JWT_SECRET
         value: flipgyan_super_secret_jwt_key_2026_education_platform
       - key: JWT_REFRESH_SECRET
