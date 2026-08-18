@@ -13,17 +13,17 @@ import {
 
 class ApiClient {
   getBaseUrl(): string {
-    let defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://those-screensavers-blacks-wan.trycloudflare.com').trim().replace(/\/+$/, '');
+    let defaultUrl = (process.env.NEXT_PUBLIC_API_URL || 'https://flipgyan-backend.onrender.com').trim().replace(/\/+$/, '');
 
-    // Intercept any obsolete trycloudflare domains and force active tunnel URL
-    if (!defaultUrl || (defaultUrl.includes('trycloudflare.com') && !defaultUrl.includes('those-screensavers-blacks-wan'))) {
-      defaultUrl = 'https://those-screensavers-blacks-wan.trycloudflare.com';
+    // Intercept any obsolete trycloudflare domains and force permanent Render backend
+    if (!defaultUrl || defaultUrl.includes('trycloudflare.com')) {
+      defaultUrl = 'https://flipgyan-backend.onrender.com';
     }
 
     if (typeof window !== 'undefined') {
       const customUrl = localStorage.getItem('flipgyan_api_url');
       // Automatically clean up stale or dead trycloudflare URLs from previous sessions
-      if (customUrl && customUrl.includes('trycloudflare.com') && !customUrl.includes('those-screensavers-blacks-wan')) {
+      if (customUrl && customUrl.includes('trycloudflare.com')) {
         localStorage.removeItem('flipgyan_api_url');
       } else if (customUrl && customUrl.trim()) {
         return customUrl.trim().replace(/\/+$/, '');
@@ -82,8 +82,8 @@ class ApiClient {
     try {
       return await this.executeFetch<T>(url, options, headers);
     } catch (error: any) {
-      // Fallback: If custom/tunnel URL failed, try standard default or local backend
-      const fallbackUrl = 'https://those-screensavers-blacks-wan.trycloudflare.com';
+      // Fallback: If custom/tunnel URL failed, try permanent Render backend
+      const fallbackUrl = 'https://flipgyan-backend.onrender.com';
       if (baseUrl !== fallbackUrl && typeof window !== 'undefined') {
         console.log(`Retrying API call with fallback endpoint: ${fallbackUrl}`);
         if (localStorage.getItem('flipgyan_api_url')) {

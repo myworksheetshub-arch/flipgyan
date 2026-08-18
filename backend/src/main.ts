@@ -39,8 +39,8 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document);
 
   const port = process.env.PORT || 4000;
-  await app.listen(port);
-  logger.log(`🚀 FlipGyan Backend running on: http://localhost:${port}`);
+  await app.listen(port, '0.0.0.0');
+  logger.log(`🚀 FlipGyan Backend running on: http://0.0.0.0:${port}`);
   logger.log(`📚 Swagger Documentation: http://localhost:${port}/api/docs`);
 }
 
