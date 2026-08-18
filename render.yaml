@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: flipgyan-backend
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /classes
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        value: postgresql://postgres:Arnav%402047a@db.tlrlmakqlkuqlgosydvx.supabase.co:5432/postgres
+      - key: DIRECT_URL
+        value: postgresql://postgres:Arnav%402047a@db.tlrlmakqlkuqlgosydvx.supabase.co:5432/postgres
+      - key: JWT_SECRET
+        value: flipgyan_super_secret_jwt_key_2026_education_platform
+      - key: JWT_REFRESH_SECRET
+        value: flipgyan_super_secret_refresh_jwt_key_2026_education
+      - key: FRONTEND_URL
+        value: https://flipgyan.com
+      - key: CLOUDINARY_CLOUD_NAME
+        value: zvaleiwd
+      - key: CLOUDINARY_API_KEY
+        value: 439412144344832
+      - key: CLOUDINARY_API_SECRET
+        value: nVOVa7DGDWtiVlMXTdlyQPnqBZ4
+      - key: CLOUDINARY_URL
+        value: cloudinary://439412144344832:nVOVa7DGDWtiVlMXTdlyQPnqBZ4@zvaleiwd
